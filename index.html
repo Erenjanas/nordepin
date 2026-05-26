@@ -1,1945 +1,1297 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-<title>NORD.dev | Premium Web Çözümleri</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-<style>
-:root {
-  --gold: #d4af37;
-  --gold-light: #f0d878;
-  --gold-dark: #b8941f;
-  --gold-glow: rgba(212, 175, 55, 0.4);
-  --gold-subtle: rgba(212, 175, 55, 0.08);
-  --bg: #030305;
-  --bg-elevated: #08080c;
-  --bg-card: rgba(255,255,255,0.02);
-  --text: #f5f5f7;
-  --text-muted: #8a8a9a;
-  --text-dim: #4a4a5a;
-  --border: rgba(212, 175, 55, 0.12);
-  --border-hover: rgba(212, 175, 55, 0.35);
-  --sale: #ff4757;
-  --sale-glow: rgba(255, 71, 87, 0.3);
-  --surface: rgba(255,255,255,0.03);
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NORDepin - Premium Oyun Satış Platformu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00d4ff;
+            --secondary: #7b2ff7;
+            --accent: #ff006e;
+            --gold: #ffd700;
+            --dark: #0a0a0f;
+            --darker: #050508;
+            --card: #12121a;
+            --card-hover: #1a1a25;
+            --text: #e0e0e0;
+            --text-muted: #888;
+            --success: #00ff88;
+        }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: auto; -webkit-text-size-adjust: 100%; }
-body {
-  font-family: 'Space Grotesk', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  overflow-x: hidden;
-  line-height: 1.6;
-}
-::selection { background: var(--gold); color: var(--bg); }
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 2px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* ===== LOADER ===== */
-.loader {
-  position: fixed; inset: 0;
-  background: var(--bg);
-  z-index: 999999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  transition: opacity 1s cubic-bezier(0.4,0,0.2,1), visibility 1s;
-}
-.loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-.loader-text {
-  font-family: 'Outfit', sans-serif;
-  font-size: clamp(2rem, 6vw, 4rem);
-  font-weight: 900;
-  letter-spacing: 10px;
-  color: var(--gold);
-  text-align: center;
-}
-.loader-text span { color: var(--text); }
-.loader-line-wrap {
-  width: 180px; height: 3px;
-  background: rgba(212,175,55,0.1);
-  margin-top: 2rem;
-  border-radius: 3px;
-  overflow: hidden;
-}
-.loader-line {
-  height: 100%; width: 0%;
-  background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light));
-  border-radius: 3px;
-  animation: loaderProgress 2.2s cubic-bezier(0.4,0,0.2,1) forwards;
-  box-shadow: 0 0 15px var(--gold-glow);
-}
-@keyframes loaderProgress { 0%{width:0%} 100%{width:100%} }
-.loader-sub {
-  font-family: 'Playfair Display', serif;
-  font-style: italic;
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  margin-top: 1.5rem;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-}
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--darker);
+            color: var(--text);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
 
-/* ===== AURORA BG ===== */
-.aurora-bg {
-  position: fixed; inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-.aurora-blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(120px);
-  opacity: 0.1;
-  animation: auroraMove 20s ease-in-out infinite;
-}
-.aurora-blob:nth-child(1) {
-  width: 500px; height: 500px;
-  background: var(--gold);
-  top: -5%; left: -5%;
-  animation-duration: 25s;
-}
-.aurora-blob:nth-child(2) {
-  width: 400px; height: 400px;
-  background: #c0a062;
-  bottom: -5%; right: -5%;
-  animation-duration: 30s;
-  animation-delay: -5s;
-}
-@keyframes auroraMove {
-  0%,100% { transform: translate(0,0) scale(1); }
-  33% { transform: translate(40px, -20px) scale(1.1); }
-  66% { transform: translate(-20px, 30px) scale(0.95); }
-}
+        .bg-animation {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(123, 47, 247, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
+        }
 
-/* ===== NOISE ===== */
-.noise-overlay {
-  position: fixed; inset: 0;
-  z-index: 9999;
-  pointer-events: none;
-  opacity: 0.025;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 256px 256px;
-}
+        .particles {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
 
-/* ===== PARTICLES ===== */
-#particles-canvas {
-  position: fixed; top: 0; left: 0;
-  width: 100%; height: 100%;
-  z-index: 1;
-  pointer-events: none;
-}
+        .particle {
+            position: absolute;
+            width: 2px; height: 2px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: float 15s infinite;
+            opacity: 0.6;
+        }
 
-/* ===== NAVBAR ===== */
-.navbar {
-  position: fixed; top: 0; left: 0; width: 100%;
-  z-index: 1000;
-  padding: 1.2rem 5%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: all 0.6s cubic-bezier(0.4,0,0.2,1);
-}
-.navbar.scrolled {
-  background: rgba(3,3,5,0.85);
-  backdrop-filter: blur(30px) saturate(180%);
-  border-bottom: 1px solid var(--border);
-  padding: 0.8rem 5%;
-}
-.logo {
-  font-family: 'Outfit', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 900;
-  color: var(--text);
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  letter-spacing: -1px;
-  position: relative;
-  flex-shrink: 0;
-}
-.logo span { color: var(--gold); font-weight: 800; }
-.logo-icon {
-  width: 42px; height: 42px;
-  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.1rem;
-  color: var(--bg);
-  box-shadow: 0 0 25px var(--gold-glow);
-  position: relative;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-.logo-icon::before {
-  content: '';
-  position: absolute; top: -50%; left: -50%;
-  width: 200%; height: 200%;
-  background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%);
-  animation: logoShine 3s ease-in-out infinite;
-}
-@keyframes logoShine {
-  0% { transform: translateX(-100%) rotate(45deg); }
-  100% { transform: translateX(100%) rotate(45deg); }
-}
-.logo-badge {
-  position: absolute; top: -8px; right: -36px;
-  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-  color: var(--bg);
-  font-size: 0.55rem;
-  font-weight: 800;
-  padding: 2px 8px;
-  border-radius: 4px;
-  letter-spacing: 1px;
-  box-shadow: 0 0 15px var(--gold-glow);
-  animation: badgePulse 3s ease-in-out infinite;
-  white-space: nowrap;
-}
-@keyframes badgePulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
 
-.nav-links {
-  display: flex;
-  gap: 2.5rem;
-  list-style: none;
-  align-items: center;
-}
-.nav-links a {
-  color: var(--text-muted);
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 0.9rem;
-  transition: all 0.4s ease;
-  position: relative;
-  padding: 0.4rem 0;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
-}
-.nav-links a::after {
-  content: '';
-  position: absolute;
-  bottom: -2px; left: 50%;
-  width: 0; height: 2px;
-  background: var(--gold);
-  transition: all 0.4s ease;
-  transform: translateX(-50%);
-  box-shadow: 0 0 10px var(--gold-glow);
-}
-.nav-links a:hover { color: var(--gold); }
-.nav-links a:hover::after { width: 100%; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--dark); }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(var(--primary), var(--secondary)); border-radius: 4px; }
 
-.nav-cta {
-  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-  color: var(--bg) !important;
-  padding: 0.7rem 1.6rem !important;
-  border-radius: 50px;
-  font-weight: 700 !important;
-  box-shadow: 0 4px 25px var(--gold-glow);
-  transition: all 0.4s ease !important;
-  position: relative;
-  overflow: hidden;
-  border: none;
-  white-space: nowrap;
-}
-.nav-cta::after { display: none !important; }
-.nav-cta::before {
-  content: '';
-  position: absolute; top: 0; left: -100%;
-  width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-  transition: left 0.6s ease;
-}
-.nav-cta:hover::before { left: 100%; }
-.nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 35px var(--gold-glow); }
+        .navbar {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 1rem 5%;
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
 
-.mobile-menu-btn {
-  display: none;
-  background: none; border: none;
-  color: var(--text);
-  font-size: 1.4rem;
-  cursor: pointer;
-  width: 44px; height: 44px;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-}
-.mobile-menu-btn:hover { border-color: var(--gold); color: var(--gold); }
+        .navbar.scrolled {
+            padding: 0.8rem 5%;
+            background: rgba(10, 10, 15, 0.98);
+            box-shadow: 0 5px 30px rgba(0, 212, 255, 0.1);
+        }
 
-/* ===== MOBILE MENU ===== */
-.mobile-menu-overlay {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.85);
-  backdrop-filter: blur(15px);
-  z-index: 1000;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.4s ease;
-}
-.mobile-menu-overlay.active { opacity: 1; visibility: visible; }
-.mobile-menu {
-  position: fixed; top: 0; right: -100%;
-  width: 80%; max-width: 380px;
-  height: 100vh;
-  background: rgba(8,8,12,0.98);
-  backdrop-filter: blur(40px);
-  z-index: 1001;
-  padding: 5rem 2rem 2rem;
-  transition: right 0.5s cubic-bezier(0.4,0,0.2,1);
-  border-left: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-}
-.mobile-menu.active { right: 0; }
-.mobile-menu-close {
-  position: absolute; top: 1.5rem; right: 1.5rem;
-  background: none; border: none;
-  color: var(--text);
-  font-size: 1.4rem;
-  cursor: pointer;
-  width: 44px; height: 44px;
-  border-radius: 50%;
-  border: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-}
-.mobile-menu-close:hover { border-color: var(--gold); color: var(--gold); transform: rotate(90deg); }
-.mobile-menu ul { list-style: none; margin-bottom: auto; }
-.mobile-menu ul li { margin-bottom: 0.5rem; }
-.mobile-menu ul li a {
-  color: var(--text);
-  text-decoration: none;
-  font-size: 1.3rem;
-  font-weight: 600;
-  display: block;
-  padding: 1rem 0;
-  border-bottom: 1px solid var(--border);
-  transition: all 0.3s ease;
-  font-family: 'Outfit', sans-serif;
-}
-.mobile-menu ul li a:hover { color: var(--gold); padding-left: 1rem; }
-.menu-contact {
-  margin-top: 2rem;
-  padding-top: 2rem;
-  border-top: 1px solid var(--border);
-}
-.menu-contact a {
-  display: flex; align-items: center; gap: 0.8rem;
-  color: var(--gold);
-  font-size: 1rem;
-  margin-bottom: 1.2rem;
-  text-decoration: none;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  word-break: break-all;
-}
-.menu-contact a:hover { transform: translateX(5px); }
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
-/* ===== HERO ===== */
-.hero {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  padding: 120px 5% 80px;
-  overflow: hidden;
-  z-index: 2;
-}
-.hero-content {
-  text-align: center;
-  max-width: 900px;
-  position: relative;
-  z-index: 2;
-  width: 100%;
-}
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  padding: 0.6rem 1.4rem;
-  border-radius: 50px;
-  font-size: 0.75rem;
-  color: var(--gold);
-  margin-bottom: 2.5rem;
-  backdrop-filter: blur(10px);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  font-weight: 600;
-  position: relative;
-  overflow: hidden;
-  white-space: nowrap;
-}
-.hero-badge i { color: var(--gold); font-size: 0.75rem; }
+        .logo i {
+            font-size: 1.5rem;
+            color: var(--primary);
+            -webkit-text-fill-color: var(--primary);
+        }
 
-.hero h1 {
-  font-family: 'Outfit', sans-serif;
-  font-size: clamp(2.5rem, 7vw, 5.5rem);
-  font-weight: 900;
-  line-height: 1.15;
-  margin-bottom: 1.5rem;
-  background: linear-gradient(135deg, #fff 0%, var(--gold-light) 40%, var(--gold) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.hero h1 .highlight {
-  position: relative;
-  display: inline;
-}
-.hero h1 .highlight::after {
-  content: '';
-  position: absolute;
-  bottom: -6px; left: 0;
-  width: 100%; height: 3px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  border-radius: 2px;
-}
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            align-items: center;
+        }
 
-.hero-subtitle {
-  font-family: 'Playfair Display', serif;
-  font-style: italic;
-  font-size: clamp(1rem, 2vw, 1.4rem);
-  color: var(--text-muted);
-  margin-bottom: 1rem;
-  letter-spacing: 1px;
-  line-height: 1.5;
-}
-.hero p {
-  font-size: clamp(0.95rem, 1.8vw, 1.1rem);
-  color: var(--text-muted);
-  margin-bottom: 2.5rem;
-  max-width: 550px;
-  margin-left: auto;
-  margin-right: auto;
-  line-height: 1.8;
-}
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            position: relative;
+            transition: color 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-.hero-buttons {
-  display: flex;
-  gap: 1.2rem;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-bottom: 3rem;
-}
-.btn-primary {
-  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-  color: var(--bg);
-  padding: 1rem 2.5rem;
-  border-radius: 50px;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 0.95rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  box-shadow: 0 4px 30px var(--gold-glow);
-  transition: all 0.4s ease;
-  border: none;
-  position: relative;
-  overflow: hidden;
-  letter-spacing: 0.5px;
-  cursor: pointer;
-  white-space: nowrap;
-}
-.btn-primary::before {
-  content: '';
-  position: absolute; top: 0; left: -100%;
-  width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-  transition: left 0.6s ease;
-}
-.btn-primary:hover::before { left: 100%; }
-.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 40px var(--gold-glow); }
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: -5px; left: 0;
+            width: 0; height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px var(--primary);
+        }
 
-.btn-secondary {
-  background: transparent;
-  color: var(--text);
-  padding: 1rem 2.5rem;
-  border-radius: 50px;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.95rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  border: 1.5px solid var(--border);
-  transition: all 0.4s ease;
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  white-space: nowrap;
-}
-.btn-secondary::before {
-  content: '';
-  position: absolute; top: 0; left: -100%;
-  width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent, var(--gold-subtle), transparent);
-  transition: left 0.5s ease;
-}
-.btn-secondary:hover::before { left: 100%; }
-.btn-secondary:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-subtle); }
+        .nav-links a:hover { color: var(--primary); }
+        .nav-links a:hover::before { width: 100%; }
 
-.hero-stats {
-  display: flex;
-  justify-content: center;
-  gap: 3rem;
-  margin-top: 2rem;
-  flex-wrap: wrap;
-}
-.stat-item {
-  text-align: center;
-  position: relative;
-  padding: 0 1rem;
-  min-width: 120px;
-}
-.stat-item::after {
-  content: '';
-  position: absolute;
-  right: -1.5rem; top: 50%;
-  transform: translateY(-50%);
-  width: 1px; height: 40px;
-  background: var(--border);
-}
-.stat-item:last-child::after { display: none; }
-.stat-number {
-  font-family: 'Outfit', sans-serif;
-  font-size: 2.5rem;
-  font-weight: 800;
-  color: var(--gold);
-  display: block;
-  line-height: 1;
-  text-shadow: 0 0 25px var(--gold-glow);
-}
-.stat-number::after {
-  content: '+';
-  font-size: 1.2rem;
-  margin-left: 2px;
-}
-.stat-label {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  margin-top: 0.6rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  font-weight: 500;
-  line-height: 1.4;
-}
-.stat-divider {
-  width: 24px; height: 2px;
-  background: var(--gold);
-  margin: 0.6rem auto;
-  border-radius: 1px;
-  opacity: 0.4;
-}
+        .user-section { display: flex; align-items: center; gap: 1rem; }
 
-.scroll-indicator {
-  position: absolute;
-  bottom: 2rem; left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  z-index: 2;
-  opacity: 0.5;
-}
-.scroll-indicator span {
-  font-size: 0.7rem;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-.scroll-line {
-  width: 1px;
-  height: 40px;
-  background: linear-gradient(to bottom, var(--gold), transparent);
-  position: relative;
-  overflow: hidden;
-}
-.scroll-line::after {
-  content: '';
-  position: absolute;
-  top: -100%; left: 0;
-  width: 100%; height: 100%;
-  background: var(--gold);
-  animation: scrollDrop 2s ease-in-out infinite;
-}
-@keyframes scrollDrop { 0%{top:-100%} 100%{top:100%} }
+        .user-display {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 50px;
+            color: var(--primary);
+            font-weight: 600;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
 
-/* ===== SECTIONS ===== */
-section { padding: 7rem 5%; position: relative; z-index: 2; }
-.section-header {
-  text-align: center;
-  margin-bottom: 4rem;
-  position: relative;
-}
-.section-tag {
-  display: inline-block;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  padding: 0.5rem 1.2rem;
-  border-radius: 50px;
-  font-size: 0.7rem;
-  color: var(--gold);
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  margin-bottom: 1.5rem;
-  font-weight: 600;
-  backdrop-filter: blur(10px);
-  white-space: nowrap;
-}
-.section-header h2 {
-  font-family: 'Outfit', sans-serif;
-  font-size: clamp(2rem, 4.5vw, 3.5rem);
-  font-weight: 800;
-  margin-bottom: 1rem;
-  line-height: 1.2;
-}
-.section-header h2 .gold-text {
-  background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.section-header p {
-  color: var(--text-muted);
-  max-width: 550px;
-  margin: 0 auto;
-  font-size: 1rem;
-  line-height: 1.8;
-}
-.section-line {
-  width: 60px; height: 2px;
-  background: var(--gold);
-  margin: 1.2rem auto;
-  border-radius: 1px;
-  opacity: 0.5;
-}
+        @keyframes glow {
+            from { box-shadow: 0 0 5px rgba(0, 212, 255, 0.2); }
+            to { box-shadow: 0 0 20px rgba(0, 212, 255, 0.4); }
+        }
 
-/* ===== MARQUEE ===== */
-.marquee-section {
-  padding: 2rem 0;
-  overflow: hidden;
-  background: var(--bg-elevated);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  position: relative;
-  z-index: 2;
-}
-.marquee-section::before,
-.marquee-section::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  width: 120px; height: 100%;
-  z-index: 2;
-  pointer-events: none;
-}
-.marquee-section::before { left: 0; background: linear-gradient(to right, var(--bg-elevated), transparent); }
-.marquee-section::after { right: 0; background: linear-gradient(to left, var(--bg-elevated), transparent); }
-.marquee-track {
-  display: flex;
-  gap: 3rem;
-  animation: marquee 30s linear infinite;
-  white-space: nowrap;
-  width: max-content;
-}
-.marquee-item {
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.9rem;
-  color: var(--text-dim);
-  font-weight: 600;
-  letter-spacing: 2px;
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-.marquee-item i { color: var(--gold); font-size: 0.7rem; }
-@keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+        .btn {
+            padding: 0.7rem 1.8rem;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-/* ===== PROJECTS ===== */
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2rem;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-.project-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 24px;
-  overflow: hidden;
-  transition: all 0.5s cubic-bezier(0.4,0,0.2,1);
-  position: relative;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-}
-.project-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
-  background-size: 200% 100%;
-  animation: shimmer 3s linear infinite;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  z-index: 3;
-}
-@keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
-.project-card:hover::before { opacity: 1; }
-.project-card:hover {
-  transform: translateY(-10px);
-  border-color: var(--border-hover);
-  box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 50px rgba(212,175,55,0.08);
-}
-.project-image-wrap {
-  position: relative;
-  overflow: hidden;
-  height: 220px;
-  flex-shrink: 0;
-}
-.project-image {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  transition: transform 0.8s cubic-bezier(0.4,0,0.2,1);
-}
-.project-card:hover .project-image { transform: scale(1.08); }
-.project-image-overlay {
-  position: absolute; inset: 0;
-  background: linear-gradient(to top, var(--bg-card) 0%, transparent 60%);
-  z-index: 1;
-}
-.project-vip-badge {
-  position: absolute;
-  top: 1rem; right: 1rem;
-  z-index: 2;
-  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-  color: var(--bg);
-  padding: 0.4rem 1rem;
-  border-radius: 50px;
-  font-size: 0.7rem;
-  font-weight: 800;
-  letter-spacing: 1px;
-  box-shadow: 0 4px 20px var(--gold-glow);
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  white-space: nowrap;
-}
-.project-content {
-  padding: 1.8rem;
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
-.project-category {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  background: var(--surface);
-  color: var(--gold);
-  padding: 0.3rem 0.9rem;
-  border-radius: 50px;
-  font-size: 0.7rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 1rem;
-  border: 1px solid var(--border);
-  width: fit-content;
-  white-space: nowrap;
-}
-.project-content h3 {
-  font-family: 'Outfit', sans-serif;
-  font-size: 1.4rem;
-  font-weight: 700;
-  margin-bottom: 0.6rem;
-  color: var(--text);
-  line-height: 1.3;
-}
-.project-content p {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  line-height: 1.7;
-  margin-bottom: 1.2rem;
-  flex-grow: 1;
-}
-.project-features {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-}
-.feature-tag {
-  background: var(--surface);
-  color: var(--text-muted);
-  padding: 0.3rem 0.8rem;
-  border-radius: 8px;
-  font-size: 0.75rem;
-  border: 1px solid var(--border);
-  transition: all 0.3s ease;
-  font-weight: 500;
-  white-space: nowrap;
-}
-.project-card:hover .feature-tag {
-  border-color: var(--border-hover);
-  color: var(--text);
-}
-.project-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 1.2rem;
-  border-top: 1px solid var(--border);
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-.project-price {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  min-width: 0;
-}
-.price-current {
-  font-family: 'Outfit', sans-serif;
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: var(--gold);
-  line-height: 1;
-  text-shadow: 0 0 15px var(--gold-glow);
-  white-space: nowrap;
-}
-.price-old {
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.9rem;
-  color: var(--text-dim);
-  text-decoration: line-through;
-  margin-top: 0.2rem;
-  white-space: nowrap;
-}
-.price-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  background: linear-gradient(135deg, var(--sale), #ff6b81);
-  color: white;
-  padding: 0.2rem 0.6rem;
-  border-radius: 50px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  margin-top: 0.3rem;
-  animation: pulse-sale 2.5s ease-in-out infinite;
-  white-space: nowrap;
-}
-@keyframes pulse-sale { 0%,100%{box-shadow:0 0 0 0 var(--sale-glow)} 50%{box-shadow:0 0 15px 4px var(--sale-glow)} }
-.project-link {
-  color: var(--gold);
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.85rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: all 0.4s ease;
-  padding: 0.5rem 1.2rem;
-  border-radius: 50px;
-  border: 1.5px solid var(--border);
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.project-link:hover {
-  gap: 0.8rem;
-  background: var(--gold-subtle);
-  border-color: var(--gold);
-  text-shadow: 0 0 10px var(--gold-glow);
-}
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+        }
 
-/* ===== FEATURES ===== */
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-.feature-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 24px;
-  padding: 2.5rem 2rem;
-  text-align: center;
-  transition: all 0.5s ease;
-  position: relative;
-  overflow: hidden;
-}
-.feature-card::before {
-  content: '';
-  position: absolute;
-  top: -50%; left: -50%;
-  width: 200%; height: 200%;
-  background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-.feature-card:hover::before { opacity: 1; }
-.feature-card:hover {
-  transform: translateY(-8px);
-  border-color: var(--border-hover);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-}
-.feature-icon {
-  width: 70px; height: 70px;
-  background: linear-gradient(135deg, rgba(212,175,55,0.12), rgba(212,175,55,0.02));
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.8rem;
-  color: var(--gold);
-  margin: 0 auto 1.5rem;
-  border: 1px solid var(--border);
-  position: relative;
-  z-index: 1;
-  transition: all 0.4s ease;
-}
-.feature-card:hover .feature-icon {
-  transform: scale(1.1) rotate(5deg);
-  box-shadow: 0 0 25px var(--gold-glow);
-  border-color: var(--gold);
-}
-.feature-card h3 {
-  font-family: 'Outfit', sans-serif;
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin-bottom: 0.8rem;
-  position: relative;
-  z-index: 1;
-  line-height: 1.3;
-}
-.feature-card p {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  line-height: 1.7;
-  position: relative;
-  z-index: 1;
-}
-.feature-number {
-  position: absolute;
-  top: 1.2rem; right: 1.2rem;
-  font-family: 'Outfit', sans-serif;
-  font-size: 3rem;
-  font-weight: 900;
-  color: var(--gold);
-  opacity: 0.04;
-  z-index: 0;
-  line-height: 1;
-}
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0, 212, 255, 0.5);
+        }
 
-/* ===== CONTACT ===== */
-.contact-section {
-  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-elevated) 100%);
-}
-.contact-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  max-width: 800px;
-  margin: 0 auto;
-}
-.contact-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 24px;
-  padding: 2.5rem 2rem;
-  text-align: center;
-  transition: all 0.5s ease;
-  text-decoration: none;
-  color: var(--text);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  position: relative;
-  overflow: hidden;
-}
-.contact-card::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(circle at center, var(--gold-glow) 0%, transparent 70%);
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-.contact-card:hover::before { opacity: 0.3; }
-.contact-card:hover {
-  transform: translateY(-8px);
-  border-color: var(--gold);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 30px rgba(212,175,55,0.1);
-}
-.contact-icon {
-  width: 80px; height: 80px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-  position: relative;
-  z-index: 1;
-  transition: all 0.4s ease;
-  flex-shrink: 0;
-}
-.contact-card.whatsapp .contact-icon {
-  background: linear-gradient(135deg, #25d366, #128c7e);
-  box-shadow: 0 0 30px rgba(37,211,102,0.3);
-}
-.contact-card.telegram .contact-icon {
-  background: linear-gradient(135deg, #0088cc, #005580);
-  box-shadow: 0 0 30px rgba(0,136,204,0.3);
-}
-.contact-card:hover .contact-icon {
-  transform: scale(1.1) rotate(-5deg);
-}
-.contact-card h3 {
-  font-family: 'Outfit', sans-serif;
-  font-size: 1.3rem;
-  font-weight: 700;
-  position: relative;
-  z-index: 1;
-  line-height: 1.3;
-}
-.contact-card p {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  position: relative;
-  z-index: 1;
-  word-break: break-all;
-}
-.contact-btn {
-  margin-top: 0.5rem;
-  padding: 0.8rem 2rem;
-  border-radius: 50px;
-  font-weight: 700;
-  font-size: 0.9rem;
-  border: none;
-  cursor: pointer;
-  transition: all 0.4s ease;
-  position: relative;
-  z-index: 1;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
-}
-.whatsapp .contact-btn { background: #25d366; color: white; }
-.telegram .contact-btn { background: #0088cc; color: white; }
-.contact-btn:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
 
-/* ===== TRUST ===== */
-.trust-section {
-  padding: 3rem 5%;
-  background: var(--bg-elevated);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  position: relative;
-  z-index: 2;
-}
-.trust-grid {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 3rem;
-  flex-wrap: wrap;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-.trust-item {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  color: var(--text-muted);
-  font-size: 0.85rem;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  white-space: nowrap;
-}
-.trust-item:hover { color: var(--gold); }
-.trust-item i {
-  color: var(--gold);
-  font-size: 1.1rem;
-}
+        .btn-outline:hover {
+            background: var(--primary);
+            color: var(--dark);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+        }
 
-/* ===== FOOTER ===== */
-.footer {
-  background: var(--bg-elevated);
-  border-top: 1px solid var(--border);
-  padding: 4rem 5% 2rem;
-  text-align: center;
-  position: relative;
-  z-index: 2;
-}
-.footer-logo {
-  font-family: 'Outfit', sans-serif;
-  font-size: 2rem;
-  font-weight: 900;
-  color: var(--text);
-  margin-bottom: 0.8rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.footer-logo span { color: var(--gold); }
-.footer-tagline {
-  font-family: 'Playfair Display', serif;
-  font-style: italic;
-  color: var(--text-muted);
-  font-size: 1rem;
-  margin-bottom: 2rem;
-}
-.footer p { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem; }
-.footer-note {
-  display: inline-block;
-  background: var(--surface);
-  border: 1px dashed var(--gold);
-  color: var(--gold);
-  padding: 1rem 2rem;
-  border-radius: 12px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  margin-top: 1.5rem;
-  line-height: 1.5;
-}
-.footer-social {
-  display: flex;
-  justify-content: center;
-  gap: 1.2rem;
-  margin-top: 2rem;
-}
-.footer-social a {
-  width: 50px; height: 50px;
-  border-radius: 50%;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-muted);
-  text-decoration: none;
-  font-size: 1.2rem;
-  transition: all 0.4s ease;
-  position: relative;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-.footer-social a::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: var(--gold);
-  transform: scale(0);
-  border-radius: 50%;
-  transition: transform 0.4s ease;
-}
-.footer-social a:hover::before { transform: scale(1); }
-.footer-social a:hover {
-  color: var(--bg);
-  border-color: var(--gold);
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px var(--gold-glow);
-}
-.footer-social a i { position: relative; z-index: 1; }
-.footer-bottom {
-  margin-top: 2.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--border);
-  font-size: 0.8rem;
-  color: var(--text-dim);
-}
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
 
-/* ===== VIP FLOAT ===== */
-.vip-float {
-  position: fixed;
-  bottom: 2rem; right: 2rem;
-  z-index: 100;
-  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-  color: var(--bg);
-  padding: 0.9rem 1.8rem;
-  border-radius: 50px;
-  font-weight: 800;
-  font-size: 0.8rem;
-  letter-spacing: 1px;
-  box-shadow: 0 10px 40px var(--gold-glow);
-  animation: vipFloat 4s ease-in-out infinite;
-  cursor: pointer;
-  border: none;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: all 0.4s ease;
-  white-space: nowrap;
-}
-.vip-float:hover {
-  transform: translateY(-5px) scale(1.05);
-  box-shadow: 0 20px 60px var(--gold-glow);
-}
-@keyframes vipFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 5% 5rem;
+            position: relative;
+            overflow: hidden;
+        }
 
-/* ===== REVEAL ===== */
-.reveal { opacity: 0; transform: translateY(50px); }
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+            z-index: 2;
+        }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
-  .nav-links { display: none; }
-  .mobile-menu-btn { display: flex; }
-  .hero { padding: 100px 5% 60px; min-height: auto; }
-  .hero h1 { font-size: clamp(2rem, 8vw, 3rem); line-height: 1.2; }
-  .hero-stats { gap: 1.5rem; }
-  .stat-item::after { display: none; }
-  .stat-item { min-width: 100px; }
-  .stat-number { font-size: 2rem; }
-  .projects-grid { grid-template-columns: 1fr; gap: 1.5rem; }
-  .features-grid { grid-template-columns: 1fr; }
-  .contact-grid { grid-template-columns: 1fr; }
-  section { padding: 4rem 5%; }
-  .hero-buttons { flex-direction: column; align-items: center; }
-  .btn-primary, .btn-secondary { width: 100%; max-width: 300px; justify-content: center; }
-  .trust-grid { gap: 1.5rem; }
-  .trust-item { font-size: 0.8rem; }
-  .vip-float { display: none; }
-  .project-footer { flex-direction: column; align-items: flex-start; gap: 1rem; }
-  .project-link { width: 100%; justify-content: center; }
-}
+        .hero-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid var(--gold);
+            border-radius: 50px;
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: pulse 2s infinite;
+        }
 
-@media (max-width: 480px) {
-  .hero h1 { font-size: 2rem; }
-  .section-header h2 { font-size: 1.8rem; }
-  .stat-number { font-size: 1.8rem; }
-  .project-image-wrap { height: 180px; }
-  .project-content { padding: 1.4rem; }
-  .project-content h3 { font-size: 1.2rem; }
-  .price-current { font-size: 1.4rem; }
-  .feature-card { padding: 2rem 1.5rem; }
-  .contact-card { padding: 2rem 1.5rem; }
-  .navbar { padding: 1rem 4%; }
-  .logo { font-size: 1.3rem; }
-  .logo-icon { width: 36px; height: 36px; font-size: 1rem; }
-  .logo-badge { right: -32px; font-size: 0.5rem; padding: 2px 6px; }
-  .footer-logo { font-size: 1.6rem; }
-  .footer-note { padding: 0.8rem 1.2rem; font-size: 0.75rem; }
-}
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
 
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-</style>
-<base target="_blank">
-<base target="_blank">
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .stat { text-align: center; }
+
+        .stat-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--primary);
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .floating-icon {
+            position: absolute;
+            font-size: 3rem;
+            color: rgba(0, 212, 255, 0.1);
+            animation: float-icon 6s ease-in-out infinite;
+        }
+
+        @keyframes float-icon {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        .games-section { padding: 6rem 5%; position: relative; }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .game-card {
+            background: var(--card);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(123, 47, 247, 0.1));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 212, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.1);
+        }
+
+        .game-card:hover::before { opacity: 1; }
+
+        .game-icon-wrapper {
+            width: 100%;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-icon {
+            font-size: 6rem;
+            transition: all 0.4s ease;
+            filter: drop-shadow(0 0 20px currentColor);
+        }
+
+        .game-card:hover .game-icon {
+            transform: scale(1.15) rotate(5deg);
+        }
+
+        .game-info {
+            padding: 1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .game-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .game-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .game-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--success);
+        }
+
+        .price-old {
+            text-decoration: line-through;
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-right: 0.5rem;
+        }
+
+        .discount {
+            background: var(--accent);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .game-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 0.3rem 0.8rem;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--primary);
+        }
+
+        .trust-section {
+            padding: 6rem 5%;
+            background: linear-gradient(180deg, transparent, rgba(0, 212, 255, 0.02), transparent);
+        }
+
+        .trust-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .trust-card {
+            background: var(--card);
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .trust-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 212, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.1);
+        }
+
+        .trust-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .trust-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .trust-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .cta-section {
+            padding: 6rem 5%;
+            text-align: center;
+            position: relative;
+        }
+
+        .cta-box {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 4rem;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(123, 47, 247, 0.1));
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-box::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .cta-content { position: relative; z-index: 2; }
+
+        .cta-box h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .cta-box p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .footer {
+            padding: 4rem 5% 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background: var(--dark);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-brand .logo {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .footer-brand p {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .footer-links h4 {
+            font-family: 'Orbitron', sans-serif;
+            color: #fff;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-links ul { list-style: none; }
+
+        .footer-links li { margin-bottom: 0.8rem; }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a:hover { color: var(--primary); }
+
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: #25d366;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .whatsapp-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(37, 211, 102, 0.5);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 450px;
+            width: 100%;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            position: relative;
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal h2 {
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #fff;
+        }
+
+        .form-group { margin-bottom: 1.5rem; }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            background: var(--darker);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem; right: 1rem;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover { color: var(--accent); }
+
+        .modal-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--text-muted);
+        }
+
+        .modal-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem; right: 2rem;
+            padding: 1rem 2rem;
+            background: var(--card);
+            border: 1px solid var(--success);
+            border-radius: 10px;
+            color: var(--success);
+            font-weight: 700;
+            z-index: 3000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .toast.show { transform: translateX(0); }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%; left: 0;
+                width: 100%;
+                background: var(--dark);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+            }
+
+            .nav-links.active { display: flex; }
+
+            .mobile-menu-btn { display: block; }
+
+            .hero { padding: 7rem 5% 3rem; }
+
+            .hero-stats { gap: 1.5rem; }
+
+            .games-grid { grid-template-columns: 1fr; }
+
+            .game-icon-wrapper { height: 160px; }
+
+            .game-icon { font-size: 4.5rem; }
+
+            .cta-box { padding: 2rem; }
+
+            .footer-content { grid-template-columns: 1fr; text-align: center; }
+        }
+
+        .game-card.vip::after {
+            content: 'VIP';
+            position: absolute;
+            top: 1rem; right: 1rem;
+            padding: 0.3rem 0.8rem;
+            background: linear-gradient(135deg, var(--gold), #ffaa00);
+            color: var(--dark);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 900;
+            z-index: 3;
+            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .game-card.vip { border: 1px solid rgba(255, 215, 0, 0.2); }
+
+        .steam-card { border: 1px solid rgba(0, 212, 255, 0.3); }
+
+        .cs2-bg { background: linear-gradient(135deg, rgba(255, 140, 0, 0.15), rgba(255, 140, 0, 0.05)); }
+        .cs2-color { color: #ff8c00; }
+
+        .valo-bg { background: linear-gradient(135deg, rgba(255, 0, 110, 0.15), rgba(255, 0, 110, 0.05)); }
+        .valo-color { color: #ff006e; }
+
+        .lol-bg { background: linear-gradient(135deg, rgba(200, 170, 110, 0.15), rgba(200, 170, 110, 0.05)); }
+        .lol-color { color: #c8aa6e; }
+
+        .fort-bg { background: linear-gradient(135deg, rgba(255, 165, 0, 0.15), rgba(255, 165, 0, 0.05)); }
+        .fort-color { color: #ffa500; }
+
+        .cod-bg { background: linear-gradient(135deg, rgba(150, 150, 150, 0.15), rgba(150, 150, 150, 0.05)); }
+        .cod-color { color: #969696; }
+
+        .pubg-bg { background: linear-gradient(135deg, rgba(255, 140, 0, 0.15), rgba(255, 140, 0, 0.05)); }
+        .pubg-color { color: #ff8c00; }
+
+        .steam-bg { background: linear-gradient(135deg, rgba(0, 173, 239, 0.15), rgba(0, 173, 239, 0.05)); }
+        .steam-color { color: #00adef; }
+    </style>
 </head>
 <body>
+    <div class="bg-animation"></div>
+    <div class="particles" id="particles"></div>
 
-<!-- Noise -->
-<div class="noise-overlay"></div>
+    <nav class="navbar" id="navbar">
+        <a href="#" class="logo">
+            <i class="fas fa-gamepad"></i>
+            NORD<span style="color: var(--primary); -webkit-text-fill-color: var(--primary);">epin</span>
+        </a>
+        
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#games">Oyunlar</a></li>
+            <li><a href="#trust">Güvenlik</a></li>
+            <li><a href="#contact">İletişim</a></li>
+            <li><a href="#" onclick="showLoginModal()">Giriş Yap</a></li>
+        </ul>
 
-<!-- Aurora -->
-<div class="aurora-bg">
-  <div class="aurora-blob"></div>
-  <div class="aurora-blob"></div>
-</div>
-
-<!-- Loader -->
-<div class="loader" id="loader">
-  <div class="loader-text">NORD<span>.dev</span></div>
-  <div class="loader-line-wrap"><div class="loader-line"></div></div>
-  <div class="loader-sub">Premium Web Çözümleri</div>
-</div>
-
-<!-- Particles -->
-<canvas id="particles-canvas"></canvas>
-
-<!-- Navbar -->
-<nav class="navbar" id="navbar">
-  <a href="#" class="logo">
-    <div class="logo-icon"><i class="fas fa-code"></i></div>
-    NORD<span>.dev</span>
-    <span class="logo-badge">VIP</span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="#anasayfa">Ana Sayfa</a></li>
-    <li><a href="#projeler">Projeler</a></li>
-    <li><a href="#ozellikler">Özellikler</a></li>
-    <li><a href="#iletisim">İletişim</a></li>
-    <li><a href="https://wa.me/16395697826" target="_blank" class="nav-cta"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
-  </ul>
-  <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
-</nav>
-
-<div class="mobile-menu-overlay" id="mobileOverlay"></div>
-<div class="mobile-menu" id="mobileMenu">
-  <button class="mobile-menu-close" id="mobileMenuClose"><i class="fas fa-times"></i></button>
-  <ul>
-    <li><a href="#anasayfa">Ana Sayfa</a></li>
-    <li><a href="#projeler">Projeler</a></li>
-    <li><a href="#ozellikler">Özellikler</a></li>
-    <li><a href="#iletisim">İletişim</a></li>
-  </ul>
-  <div class="menu-contact">
-    <a href="https://wa.me/16395697826" target="_blank"><i class="fab fa-whatsapp"></i> +1 (639) 569-7826</a>
-    <a href="https://t.me/GAYRlMESRU" target="_blank"><i class="fab fa-telegram"></i> @GAYRlMESRU</a>
-  </div>
-</div>
-
-<!-- Hero -->
-<section class="hero" id="anasayfa">
-  <div class="hero-content">
-    <div class="hero-badge"><i class="fas fa-crown"></i> Premium Web Çözümleri</div>
-    <div class="hero-subtitle">NORD.dev ile tanışın</div>
-    <h1>Geleceğinizi<br><span class="highlight">Kodluyoruz</span></h1>
-    <p>Profesyonel, hızlı ve estetik web siteleri ile markanızı bir üst seviyeye taşıyoruz. Her proje özel, her detay önemli.</p>
-    <div class="hero-buttons">
-      <a href="#projeler" class="btn-primary"><i class="fas fa-rocket"></i> Projeleri İncele</a>
-      <a href="#iletisim" class="btn-secondary"><i class="fas fa-envelope"></i> İletişime Geç</a>
-    </div>
-    <div class="hero-stats">
-      <div class="stat-item">
-        <span class="stat-number" data-count="8">0</span>
-        <div class="stat-divider"></div>
-        <div class="stat-label">Premium Proje</div>
-      </div>
-      <div class="stat-item">
-        <span class="stat-number" data-count="100">0</span>
-        <div class="stat-divider"></div>
-        <div class="stat-label">Müşteri Memnuniyeti %</div>
-      </div>
-      <div class="stat-item">
-        <span class="stat-number" data-count="24">0</span>
-        <div class="stat-divider"></div>
-        <div class="stat-label">Saat Destek</div>
-      </div>
-    </div>
-  </div>
-  <div class="scroll-indicator">
-    <span>Kaydır</span>
-    <div class="scroll-line"></div>
-  </div>
-</section>
-
-<!-- Marquee -->
-<div class="marquee-section">
-  <div class="marquee-track">
-    <div class="marquee-item"><i class="fas fa-gem"></i> Premium Kalite</div>
-    <div class="marquee-item"><i class="fas fa-shield-alt"></i> Güvenli Altyapı</div>
-    <div class="marquee-item"><i class="fas fa-bolt"></i> Yüksek Performans</div>
-    <div class="marquee-item"><i class="fas fa-mobile-alt"></i> Tam Responsive</div>
-    <div class="marquee-item"><i class="fas fa-headset"></i> 7/24 Destek</div>
-    <div class="marquee-item"><i class="fas fa-rocket"></i> Hızlı Teslimat</div>
-    <div class="marquee-item"><i class="fas fa-gem"></i> Premium Kalite</div>
-    <div class="marquee-item"><i class="fas fa-shield-alt"></i> Güvenli Altyapı</div>
-    <div class="marquee-item"><i class="fas fa-bolt"></i> Yüksek Performans</div>
-    <div class="marquee-item"><i class="fas fa-mobile-alt"></i> Tam Responsive</div>
-    <div class="marquee-item"><i class="fas fa-headset"></i> 7/24 Destek</div>
-    <div class="marquee-item"><i class="fas fa-rocket"></i> Hızlı Teslimat</div>
-  </div>
-</div>
-
-<!-- Projects -->
-<section id="projeler">
-  <div class="section-header reveal">
-    <span class="section-tag">Portföy</span>
-    <h2>Satılık <span class="gold-text">Projelerimiz</span></h2>
-    <div class="section-line"></div>
-    <p>Hazır, profesyonel ve tamamen özelleştirilebilir web siteleri. Hemen satın alın, markanızı büyütün.</p>
-  </div>
-  <div class="projects-grid">
-    <!-- EliteDrive -->
-    <div class="project-card reveal">
-      <div class="project-image-wrap">
-        <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600&h=400&fit=crop" alt="EliteDrive" class="project-image" loading="lazy">
-        <div class="project-image-overlay"></div>
-        <div class="project-vip-badge"><i class="fas fa-crown"></i> VIP</div>
-      </div>
-      <div class="project-content">
-        <span class="project-category"><i class="fas fa-car"></i> Rent A Car</span>
-        <h3>EliteDrive</h3>
-        <p>Premium araç kiralama platformu. Volkswagen, BMW, Audi, Mercedes gibi lüks araç filosu yönetimi, online rezervasyon sistemi ve müşteri paneli.</p>
-        <div class="project-features">
-          <span class="feature-tag">Rezervasyon</span>
-          <span class="feature-tag">Ödeme</span>
-          <span class="feature-tag">Admin Panel</span>
-          <span class="feature-tag">Responsive</span>
+        <div class="user-section">
+            <div class="user-display" id="userDisplay">
+                <i class="fas fa-user-circle"></i>
+                <span id="userName">Kullanıcı</span>
+            </div>
+            <button class="btn btn-primary" id="loginBtn" onclick="showLoginModal()">Giriş Yap</button>
+            <button class="mobile-menu-btn" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
-        <div class="project-footer">
-          <div class="project-price">
-            <span class="price-current">$50</span>
-            <span class="price-old">$899</span>
-            <span class="price-badge"><i class="fas fa-fire"></i> %94 İNDİRİM</span>
-          </div>
-          <a href="https://elitedrive-puce.vercel.app/" target="_blank" class="project-link">Canlı Demo <i class="fas fa-arrow-right"></i></a>
+    </nav>
+
+    <section class="hero">
+        <div class="floating-icon" style="top: 20%; left: 10%;"><i class="fas fa-crosshairs"></i></div>
+        <div class="floating-icon" style="top: 60%; right: 15%; animation-delay: 2s;"><i class="fas fa-shield-alt"></i></div>
+        <div class="floating-icon" style="bottom: 20%; left: 20%; animation-delay: 4s;"><i class="fas fa-trophy"></i></div>
+        
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-crown"></i> Premium Oyun Satış Platformu
+            </div>
+            <h1>Oyun Dünyasının<br>Yeni Adresi</h1>
+            <p>Güvenilir, hızlı ve VIP kalitede oyun hesabı ve e-pin satış platformu. Binlerce gamer'in güvendiği tek adres.</p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="#games" class="btn btn-primary" style="text-decoration: none;">
+                    <i class="fas fa-rocket"></i> Oyunları Keşfet
+                </a>
+                <a href="https://wa.me/16395697826" target="_blank" class="btn btn-outline" style="text-decoration: none;">
+                    <i class="fab fa-whatsapp"></i> WhatsApp Destek
+                </a>
+            </div>
+            
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-number" id="stat1">0</div>
+                    <div class="stat-label">Aktif Oyun</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" id="stat2">0</div>
+                    <div class="stat-label">Mutlu Gamer</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" id="stat3">0</div>
+                    <div class="stat-label">Anlık Teslimat</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" id="stat4">0</div>
+                    <div class="stat-label">Güven Oranı</div>
+                </div>
+            </div>
         </div>
-      </div>
+    </section>
+
+    <section class="games-section" id="games">
+        <div class="section-header">
+            <h2>Popüler Oyunlar</h2>
+            <p>En çok tercih edilen oyunların premium hesap ve e-pinleri</p>
+        </div>
+        
+        <div class="games-grid">
+            <!-- Steam Cüzdan -->
+            <div class="game-card steam-card vip" onclick="showGameDetails('Steam Cüzdan')">
+                <div class="game-icon-wrapper steam-bg">
+                    <i class="fab fa-steam game-icon steam-color"></i>
+                </div>
+                <div class="game-info">
+                    <h3 class="game-title"><i class="fab fa-steam"></i> Steam Cüzdan</h3>
+                    <p class="game-desc">Steam Wallet Gift Card - $5, $10, $20, $50, $100 seçenekleri</p>
+                    <div class="game-price">
+                        <div>
+                            <span class="price-old">₺599</span>
+                            <span class="price">₺299</span>
+                        </div>
+                        <span class="discount">-50%</span>
+                    </div>
+                    <div class="game-tags">
+                        <span class="tag"><i class="fas fa-bolt"></i> Anında Teslimat</span>
+                        <span class="tag"><i class="fas fa-globe"></i> Global</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CS2 -->
+            <div class="game-card vip" onclick="showGameDetails('CS2')">
+                <div class="game-icon-wrapper cs2-bg">
+                    <i class="fas fa-crosshairs game-icon cs2-color"></i>
+                </div>
+                <div class="game-info">
+                    <h3 class="game-title">Counter-Strike 2</h3>
+                    <p class="game-desc">Prime hesaplar, skinli hesaplar ve rank boost hizmetleri</p>
+                    <div class="game-price">
+                        <div>
+                            <span class="price-old">₺299</span>
+                            <span class="price">₺149</span>
+                        </div>
+                        <span class="discount">-50%</span>
+                    </div>
+                    <div class="game-tags">
+                        <span class="tag"><i class="fas fa-bolt"></i> Anında Teslimat</span>
+                        <span class="tag"><i class="fas fa-shield-alt"></i> Garantili</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Valorant -->
+            <div class="game-card vip" onclick="showGameDetails('Valorant')">
+                <div class="game-icon-wrapper valo-bg">
+                    <i class="fas fa-v game-icon valo-color"></i>
+                </div>
+                <div class="game-info">
+                    <h3 class="game-title">Valorant</h3>
+                    <p class="game-desc">VP pinleri, skinli hesaplar ve rank boost</p>
+                    <div class="game-price">
+                        <div>
+                            <span class="price-old">₺199</span>
+                            <span class="price">₺99</span>
+                        </div>
+                        <span class="discount">-50%</span>
+                    </div>
+                    <div class="game-tags">
+                        <span class="tag"><i class="fas fa-bolt"></i> Anında Teslimat</span>
+                        <span class="tag"><i class="fas fa-shield-alt"></i> Garantili</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- League of Legends -->
+            <div class="game-card" onclick="showGameDetails('LoL')">
+                <div class="game-icon-wrapper lol-bg">
+                    <i class="fas fa-chess-knight game-icon lol-color"></i>
+                </div>
+                <div class="game-info">
+                    <h3 class="game-title">League of Legends</h3>
+                    <p class="game-desc">RP pinleri, skinli hesaplar ve boost hizmetleri</p>
+                    <div class="game-price">
+                        <div>
+                            <span class="price-old">₺249</span>
+                            <span class="price">₺129</span>
+                        </div>
+                        <span class="discount">-48%</span>
+                    </div>
+                    <div class="game-tags">
+                        <span class="tag"><i class="fas fa-bolt"></i> Anında Teslimat</span>
+                        <span class="tag"><i class="fas fa-shield-alt"></i> Garantili</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fortnite -->
+            <div class="game-card" onclick="showGameDetails('Fortnite')">
+                <div class="game-icon-wrapper fort-bg">
+                    <i class="fas fa-fort-awesome game-icon fort-color"></i>
+                </div>
+                <div class="game-info">
+                    <h3 class="game-title">Fortnite</h3>
+                    <p class="game-desc">V-Buck pinleri, skinli hesaplar ve battle pass</p>
+                    <div class="game-price">
+                        <div>
+                            <span class="price-old">₺179</span>
+                            <span class="price">₺89</span>
+                        </div>
+                        <span class="discount">-50%</span>
+                    </div>
+                    <div class="game-tags">
+                        <span class="tag"><i class="fas fa-bolt"></i> Anında Teslimat</span>
+                        <span class="tag"><i class="fas fa-shield-alt"></i> Garantili</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call of Duty -->
+            <div class="game-card" onclick="showGameDetails('CoD')">
+                <div class="game-icon-wrapper cod-bg">
+                    <i class="fas fa-fighter-jet game-icon cod-color"></i>
+                </div>
+                <div class="game-info">
+                    <h3 class="game-title">Call of Duty</h3>
+                    <p class="game-desc">CP pinleri, operatör skinleri ve boost</p>
+                    <div class="game-price">
+                        <div>
+                            <span class="price-old">₺219</span>
+                            <span class="price">₺109</span>
+                        </div>
+                        <span class="discount">-50%</span>
+                    </div>
+                    <div class="game-tags">
+                        <span class="tag"><i class="fas fa-bolt"></i> Anında Teslimat</span>
+                        <span class="tag"><i class="fas fa-shield-alt"></i> Garantili</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PUBG -->
+            <div class="game-card" onclick="showGameDetails('PUBG')">
+                <div class="game-icon-wrapper pubg-bg">
+                    <i class="fas fa-parachute-box game-icon pubg-color"></i>
+                </div>
+                <div class="game-info">
+                    <h3 class="game-title">PUBG Mobile</h3>
+                    <p class="game-desc">UC pinleri, skinli hesaplar ve royal pass</p>
+                    <div class="game-price">
+                        <div>
+                            <span class="price-old">₺159</span>
+                            <span class="price">₺79</span>
+                        </div>
+                        <span class="discount">-50%</span>
+                    </div>
+                    <div class="game-tags">
+                        <span class="tag"><i class="fas fa-bolt"></i> Anında Teslimat</span>
+                        <span class="tag"><i class="fas fa-shield-alt"></i> Garantili</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="trust-section" id="trust">
+        <div class="section-header">
+            <h2>Neden Bizi Tercih Etmelisiniz?</h2>
+            <p>Gamer'ların güvendiği premium platform</p>
+        </div>
+        
+        <div class="trust-grid">
+            <div class="trust-card">
+                <div class="trust-icon"><i class="fas fa-shield-alt"></i></div>
+                <h3>%100 Güvenli</h3>
+                <p>SSL şifreleme ve güvenli ödeme altyapısı ile verileriniz her zaman korunur.</p>
+            </div>
+            <div class="trust-card">
+                <div class="trust-icon"><i class="fas fa-bolt"></i></div>
+                <h3>Anında Teslimat</h3>
+                <p>Satın aldığınız ürünler otomatik sistem ile saniyeler içinde teslim edilir.</p>
+            </div>
+            <div class="trust-card">
+                <div class="trust-icon"><i class="fas fa-headset"></i></div>
+                <h3>7/24 Destek</h3>
+                <p>Uzman destek ekibimiz WhatsApp üzerinden anında yanınızda.</p>
+            </div>
+            <div class="trust-card">
+                <div class="trust-icon"><i class="fas fa-undo"></i></div>
+                <h3>Para İade Garantisi</h3>
+                <p>Memnun kalmazsanız 24 saat içinde koşulsuz iade garantisi.</p>
+            </div>
+            <div class="trust-card">
+                <div class="trust-icon"><i class="fas fa-certificate"></i></div>
+                <h3>Lisanslı Ürünler</h3>
+                <p>Tüm ürünler resmi distribütörlerden temin edilir, korsan yok.</p>
+            </div>
+            <div class="trust-card">
+                <div class="trust-icon"><i class="fas fa-users"></i></div>
+                <h3>Topluluk Gücü</h3>
+                <p>10.000+ aktif kullanıcı ve binlerce olumlu geri bildirim.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section" id="contact">
+        <div class="cta-box">
+            <div class="cta-content">
+                <h2>Hemen Başlayın</h2>
+                <p>VIP üyelik ile özel indirimlerden ve anında teslimat avantajından yararlanın.</p>
+                <a href="https://wa.me/16395697826" target="_blank" class="btn btn-primary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;">
+                    <i class="fab fa-whatsapp"></i> WhatsApp'tan Ulaşın
+                </a>
+                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--primary);">
+                    <i class="fas fa-phone"></i> +1 (639) 569-7826
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <a href="#" class="logo">
+                    <i class="fas fa-gamepad"></i>
+                    NORD<span style="color: var(--primary); -webkit-text-fill-color: var(--primary);">epin</span>
+                </a>
+                <p>Premium oyun satış platformu. Gamer'ların güvendiği tek adres. Kalite, hız ve güvenlik bir arada.</p>
+                <a href="https://wa.me/16395697826" target="_blank" class="whatsapp-btn">
+                    <i class="fab fa-whatsapp"></i> WhatsApp Destek
+                </a>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Hızlı Linkler</h4>
+                <ul>
+                    <li><a href="#games"><i class="fas fa-gamepad"></i> Oyunlar</a></li>
+                    <li><a href="#trust"><i class="fas fa-shield-alt"></i> Güvenlik</a></li>
+                    <li><a href="#" onclick="showLoginModal()"><i class="fas fa-user"></i> Giriş Yap</a></li>
+                    <li><a href="#contact"><i class="fas fa-envelope"></i> İletişim</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Destek</h4>
+                <ul>
+                    <li><a href="#"><i class="fas fa-question-circle"></i> SSS</a></li>
+                    <li><a href="#"><i class="fas fa-file-contract"></i> Kullanım Koşulları</a></li>
+                    <li><a href="#"><i class="fas fa-lock"></i> Gizlilik Politikası</a></li>
+                    <li><a href="#"><i class="fas fa-undo"></i> İade Politikası</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links">
+                <h4>İletişim</h4>
+                <ul>
+                    <li><a href="https://wa.me/16395697826" target="_blank"><i class="fab fa-whatsapp"></i> +1 (639) 569-7826</a></li>
+                    <li><a href="#"><i class="fas fa-envelope"></i> destek@nordepin.com</a></li>
+                    <li><a href="#"><i class="fas fa-clock"></i> 7/24 Aktif</a></li>
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> Global Hizmet</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p> 2026 NORDepin. Tüm hakları saklıdır. | Gamer'ların güvendiği platform</p>
+        </div>
+    </footer>
+
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeLoginModal()"><i class="fas fa-times"></i></button>
+            <h2><i class="fas fa-user-circle"></i> Giriş Yap</h2>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Kullanıcı Adı</label>
+                    <input type="text" id="loginUsername" placeholder="Kullanıcı adınızı girin" required>
+                </div>
+                <div class="form-group">
+                    <label>Şifre</label>
+                    <input type="password" id="loginPassword" placeholder="Şifrenizi girin" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-sign-in-alt"></i> Giriş Yap
+                </button>
+            </form>
+            <div class="modal-footer">
+                Hesabınız yok mu? <a href="#">Kayıt Ol</a>
+            </div>
+        </div>
     </div>
 
-    <!-- AutoPart -->
-    <div class="project-card reveal">
-      <div class="project-image-wrap">
-        <img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600&h=400&fit=crop" alt="AutoPart" class="project-image" loading="lazy">
-        <div class="project-image-overlay"></div>
-        <div class="project-vip-badge"><i class="fas fa-crown"></i> VIP</div>
-      </div>
-      <div class="project-content">
-        <span class="project-category"><i class="fas fa-cogs"></i> Oto Yedek Parça</span>
-        <h3>AutoPart PREMIUM</h3>
-        <p>Orijinal yedek parça e-ticaret platformu. Motor, fren, süspansiyon, elektrik sistemleri. 15.000+ ürün, 24 saat teslimat, 2 yıl garanti.</p>
-        <div class="project-features">
-          <span class="feature-tag">E-Ticaret</span>
-          <span class="feature-tag">Sepet</span>
-          <span class="feature-tag">Stok</span>
-          <span class="feature-tag">Yorumlar</span>
-        </div>
-        <div class="project-footer">
-          <div class="project-price">
-            <span class="price-current">$25</span>
-            <span class="price-old">$799</span>
-            <span class="price-badge"><i class="fas fa-fire"></i> %97 İNDİRİM</span>
-          </div>
-          <a href="https://auto-part-three.vercel.app/" target="_blank" class="project-link">Canlı Demo <i class="fas fa-arrow-right"></i></a>
-        </div>
-      </div>
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i> <span id="toastMessage">İşlem başarılı!</span>
     </div>
 
-    <!-- Medyum -->
-    <div class="project-card reveal">
-      <div class="project-image-wrap">
-        <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&h=400&fit=crop" alt="Medyum" class="project-image" loading="lazy">
-        <div class="project-image-overlay"></div>
-        <div class="project-vip-badge"><i class="fas fa-crown"></i> VIP</div>
-      </div>
-      <div class="project-content">
-        <span class="project-category"><i class="fas fa-magic"></i> Danışmanlık</span>
-        <h3>Spiritüel Danışmanlık</h3>
-        <p>Medyum ve spiritüel danışmanlık sitesi. Randevu sistemi, hizmet kategorileri, müşteri yorumları ve WhatsApp entegrasyonu ile tam donanımlı.</p>
-        <div class="project-features">
-          <span class="feature-tag">Randevu</span>
-          <span class="feature-tag">Blog</span>
-          <span class="feature-tag">Yorumlar</span>
-          <span class="feature-tag">SEO</span>
-        </div>
-        <div class="project-footer">
-          <div class="project-price">
-            <span class="price-current">$15</span>
-            <span class="price-old">$749</span>
-            <span class="price-badge"><i class="fas fa-fire"></i> %98 İNDİRİM</span>
-          </div>
-          <a href="https://medyum.vercel.app/" target="_blank" class="project-link">Canlı Demo <i class="fas fa-arrow-right"></i></a>
-        </div>
-      </div>
-    </div>
+    <script>
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            particlesContainer.appendChild(particle);
+        }
 
-    <!-- Guventur -->
-    <div class="project-card reveal">
-      <div class="project-image-wrap">
-        <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=600&h=400&fit=crop" alt="Guventur" class="project-image" loading="lazy">
-        <div class="project-image-overlay"></div>
-        <div class="project-vip-badge"><i class="fas fa-crown"></i> VIP</div>
-      </div>
-      <div class="project-content">
-        <span class="project-category"><i class="fas fa-hotel"></i> Otel & Tatil</span>
-        <h3>Guventur</h3>
-        <p>Lüks tatil ve otel rezervasyon platformu. Bungalov, villa ve butik otel listeleme, tarih seçimi, fiyatlandırma ve online ödeme sistemi.</p>
-        <div class="project-features">
-          <span class="feature-tag">Rezervasyon</span>
-          <span class="feature-tag">Takvim</span>
-          <span class="feature-tag">Galeri</span>
-          <span class="feature-tag">Multi-lang</span>
-        </div>
-        <div class="project-footer">
-          <div class="project-price">
-            <span class="price-current">$70</span>
-            <span class="price-old">$999</span>
-            <span class="price-badge"><i class="fas fa-fire"></i> %93 İNDİRİM</span>
-          </div>
-          <a href="https://guventur.web1337.net/" target="_blank" class="project-link">Canlı Demo <i class="fas fa-arrow-right"></i></a>
-        </div>
-      </div>
-    </div>
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
 
-    <!-- NORD Personal -->
-    <div class="project-card reveal">
-      <div class="project-image-wrap">
-        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&h=400&fit=crop" alt="NORD Personal" class="project-image" loading="lazy">
-        <div class="project-image-overlay"></div>
-        <div class="project-vip-badge"><i class="fas fa-crown"></i> VIP</div>
-      </div>
-      <div class="project-content">
-        <span class="project-category"><i class="fas fa-user-tie"></i> Kişisel Site</span>
-        <h3>NORD Personal</h3>
-        <p>Kişiye özel premium portföy sitesi. Cyberpunk temalı, müzik entegrasyonlu, animasyonlu ve tamamen özelleştirilebilir kişisel marka sitesi.</p>
-        <div class="project-features">
-          <span class="feature-tag">Animasyon</span>
-          <span class="feature-tag">Müzik</span>
-          <span class="feature-tag">Cyber</span>
-          <span class="feature-tag">Özel Tasarım</span>
-        </div>
-        <div class="project-footer">
-          <div class="project-price">
-            <span class="price-current">$10</span>
-            <span class="price-old">$649</span>
-            <span class="price-badge"><i class="fas fa-fire"></i> %98 İNDİRİM</span>
-          </div>
-          <a href="https://nord-nu.vercel.app/" target="_blank" class="project-link">Canlı Demo <i class="fas fa-arrow-right"></i></a>
-        </div>
-      </div>
-    </div>
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
 
-    <!-- NORDBET -->
-    <div class="project-card reveal">
-      <div class="project-image-wrap">
-        <img src="https://images.unsplash.com/photo-1596838132731-3301c3fd4317?w=600&h=400&fit=crop" alt="NORDBET" class="project-image" loading="lazy">
-        <div class="project-image-overlay"></div>
-        <div class="project-vip-badge"><i class="fas fa-crown"></i> VIP</div>
-      </div>
-      <div class="project-content">
-        <span class="project-category"><i class="fas fa-dice"></i> Casino & Bahis</span>
-        <h3>NORDBET VIP</h3>
-        <p>VIP casino ve bahis platformu. Slot oyunları, rulet, blackjack, aviator ve daha fazlası. Provably Fair sistemi, canlı yayın entegrasyonu.</p>
-        <div class="project-features">
-          <span class="feature-tag">Slot</span>
-          <span class="feature-tag">Canlı</span>
-          <span class="feature-tag">Provably Fair</span>
-          <span class="feature-tag">VIP Panel</span>
-        </div>
-        <div class="project-footer">
-          <div class="project-price">
-            <span class="price-current">$55</span>
-            <span class="price-old">$1,499</span>
-            <span class="price-badge"><i class="fas fa-fire"></i> %96 İNDİRİM</span>
-          </div>
-          <a href="https://nordbet-ruby.vercel.app/" target="_blank" class="project-link">Canlı Demo <i class="fas fa-arrow-right"></i></a>
-        </div>
-      </div>
-    </div>
+        function showLoginModal() {
+            document.getElementById('loginModal').classList.add('active');
+        }
 
-    <!-- NORDwallet -->
-    <div class="project-card reveal">
-      <div class="project-image-wrap">
-        <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=600&h=400&fit=crop" alt="NORDwallet" class="project-image" loading="lazy">
-        <div class="project-image-overlay"></div>
-        <div class="project-vip-badge"><i class="fas fa-crown"></i> VIP</div>
-      </div>
-      <div class="project-content">
-        <span class="project-category"><i class="fas fa-wallet"></i> Kripto Cüzdan</span>
-        <h3>NORDwallet</h3>
-        <p>Profesyonel kripto para takip ve portföy yönetim platformu. Bitcoin, Ethereum, Solana ve 500+ token desteği. Canlı fiyat grafikleri, alarm sistemi ve detaylı analiz araçları.</p>
-        <div class="project-features">
-          <span class="feature-tag">500+ Token</span>
-          <span class="feature-tag">Grafik</span>
-          <span class="feature-tag">Alarm</span>
-          <span class="feature-tag">Analiz</span>
-        </div>
-        <div class="project-footer">
-          <div class="project-price">
-            <span class="price-current">$35</span>
-            <span class="price-old">$899</span>
-            <span class="price-badge"><i class="fas fa-fire"></i> %96 İNDİRİM</span>
-          </div>
-          <a href="https://nor-dwallet.vercel.app/" target="_blank" class="project-link">Canlı Demo <i class="fas fa-arrow-right"></i></a>
-        </div>
-      </div>
-    </div>
+        function closeLoginModal() {
+            document.getElementById('loginModal').classList.remove('active');
+        }
 
-    <!-- NORDepin -->
-    <div class="project-card reveal">
-      <div class="project-image-wrap">
-        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600&h=400&fit=crop" alt="NORDepin" class="project-image" loading="lazy">
-        <div class="project-image-overlay"></div>
-        <div class="project-vip-badge"><i class="fas fa-crown"></i> VIP</div>
-      </div>
-      <div class="project-content">
-        <span class="project-category"><i class="fas fa-gamepad"></i> Oyun Item Satış</span>
-        <h3>NORDepin</h3>
-        <p>Oyun içi item, skin ve hesap satış platformu. CS2, Valorant, PUBG, Roblox desteği. Güvenli escrow sistemi, anında teslimat, 7/24 canlı destek.</p>
-        <div class="project-features">
-          <span class="feature-tag">Escrow</span>
-          <span class="feature-tag">Anında Teslim</span>
-          <span class="feature-tag">7/24 Destek</span>
-          <span class="feature-tag">Multi-Game</span>
-        </div>
-        <div class="project-footer">
-          <div class="project-price">
-            <span class="price-current">$40</span>
-            <span class="price-old">$999</span>
-            <span class="price-badge"><i class="fas fa-fire"></i> %96 İNDİRİM</span>
-          </div>
-          <a href="https://nordepin.vercel.app/" target="_blank" class="project-link">Canlı Demo <i class="fas fa-arrow-right"></i></a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+        function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value;
+            localStorage.setItem('nordepin_user', username);
+            updateUserDisplay();
+            closeLoginModal();
+            showToast('Hoş geldiniz, ' + username + '! 🎮');
+        }
 
-<!-- Trust -->
-<div class="trust-section">
-  <div class="trust-grid">
-    <div class="trust-item"><i class="fas fa-check-circle"></i> Güvenli Ödeme</div>
-    <div class="trust-item"><i class="fas fa-clock"></i> Anında Teslimat</div>
-    <div class="trust-item"><i class="fas fa-sync"></i> Ücretsiz Güncelleme</div>
-    <div class="trust-item"><i class="fas fa-lock"></i> SSL Güvenliği</div>
-    <div class="trust-item"><i class="fas fa-undo"></i> 7 Gün İade</div>
-  </div>
-</div>
+        function updateUserDisplay() {
+            const user = localStorage.getItem('nordepin_user');
+            const userDisplay = document.getElementById('userDisplay');
+            const userName = document.getElementById('userName');
+            const loginBtn = document.getElementById('loginBtn');
+            
+            if (user) {
+                userDisplay.style.display = 'flex';
+                userName.textContent = user;
+                loginBtn.style.display = 'none';
+            } else {
+                userDisplay.style.display = 'none';
+                loginBtn.style.display = 'block';
+            }
+        }
 
-<!-- Features -->
-<section id="ozellikler" style="background: var(--bg-elevated);">
-  <div class="section-header reveal">
-    <span class="section-tag">Neden Biz?</span>
-    <h2>Premium <span class="gold-text">Hizmet Garantisi</span></h2>
-    <div class="section-line"></div>
-    <p>Her projede en yüksek kalite standartlarını sunuyoruz. İşte bizi farklı kılan özellikler.</p>
-  </div>
-  <div class="features-grid">
-    <div class="feature-card reveal">
-      <div class="feature-number">01</div>
-      <div class="feature-icon"><i class="fas fa-bolt"></i></div>
-      <h3>Yüksek Performans</h3>
-      <p>Optimize edilmiş kod yapısı sayesinde siteniz saniyeler içinde yüklenir. SEO dostu altyapı.</p>
-    </div>
-    <div class="feature-card reveal">
-      <div class="feature-number">02</div>
-      <div class="feature-icon"><i class="fas fa-mobile-alt"></i></div>
-      <h3>Tam Responsive</h3>
-      <p>Mobil, tablet ve masaüstü cihazlarda kusursuz görünüm. Her ekran boyutuna uyumlu tasarım.</p>
-    </div>
-    <div class="feature-card reveal">
-      <div class="feature-number">03</div>
-      <div class="feature-icon"><i class="fas fa-paint-brush"></i></div>
-      <h3>Özel Tasarım</h3>
-      <p>Hazır şablon kullanmıyoruz. Her proje sıfırdan, markanıza özel olarak tasarlanıyor.</p>
-    </div>
-    <div class="feature-card reveal">
-      <div class="feature-number">04</div>
-      <div class="feature-icon"><i class="fas fa-headset"></i></div>
-      <h3>7/24 Destek</h3>
-      <p>Satış sonrası teknik destek ve güncelleme hizmeti. WhatsApp üzerinden anında ulaşım.</p>
-    </div>
-    <div class="feature-card reveal">
-      <div class="feature-number">05</div>
-      <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
-      <h3>Güvenlik</h3>
-      <p>SSL sertifikası, güvenli ödeme altyapısı ve veri koruma standartları ile tam güvenlik.</p>
-    </div>
-    <div class="feature-card reveal">
-      <div class="feature-number">06</div>
-      <div class="feature-icon"><i class="fas fa-rocket"></i></div>
-      <h3>Hızlı Teslimat</h3>
-      <p>Projelerinizi en kısa sürede teslim ediyoruz. Hemen başlayın, hemen kazanın.</p>
-    </div>
-  </div>
-</section>
+        updateUserDisplay();
 
-<!-- Contact -->
-<section class="contact-section" id="iletisim">
-  <div class="section-header reveal">
-    <span class="section-tag">İletişim</span>
-    <h2>Hemen <span class="gold-text">İletişime Geçin</span></h2>
-    <div class="section-line"></div>
-    <p>Projeler hakkında detaylı bilgi almak veya sipariş vermek için bize ulaşın.</p>
-  </div>
-  <div class="contact-grid">
-    <a href="https://wa.me/16395697826" target="_blank" class="contact-card whatsapp reveal">
-      <div class="contact-icon"><i class="fab fa-whatsapp"></i></div>
-      <h3>WhatsApp</h3>
-      <p>+1 (639) 569-7826</p>
-      <button class="contact-btn">Mesaj Gönder</button>
-    </a>
-    <a href="https://t.me/GAYRlMESRU" target="_blank" class="contact-card telegram reveal">
-      <div class="contact-icon"><i class="fab fa-telegram-plane"></i></div>
-      <h3>Telegram</h3>
-      <p>@GAYRlMESRU</p>
-      <button class="contact-btn">Mesaj Gönder</button>
-    </a>
-  </div>
-</section>
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
 
-<!-- Footer -->
-<footer class="footer">
-  <div class="footer-logo">NORD<span>.dev</span> <i class="fas fa-crown" style="color:var(--gold);font-size:1.1rem;margin-left:0.4rem;"></i></div>
-  <div class="footer-tagline">Premium Web Çözümleri</div>
-  <p>&copy; 2026 NORD.dev. Tüm hakları saklıdır.</p>
-  <div class="footer-note">
-    <i class="fas fa-info-circle"></i> Sadece scripti satılıktır. Görseller ve içerikler demo amaçlıdır.
-  </div>
-  <div class="footer-social">
-    <a href="https://wa.me/16395697826" target="_blank"><i class="fab fa-whatsapp"></i></a>
-    <a href="https://t.me/GAYRlMESRU" target="_blank"><i class="fab fa-telegram-plane"></i></a>
-  </div>
-  <div class="footer-bottom">
-    NORD.dev - Geleceğinizi Kodluyoruz
-  </div>
-</footer>
+        function showGameDetails(game) {
+            showToast(game + ' detayları yakında eklenecek! 🚀');
+        }
 
-<!-- VIP Float -->
-<button class="vip-float" onclick="window.open('https://wa.me/16395697826','_blank')">
-  <i class="fas fa-crown"></i> VIP Destek
-</button>
+        function animateStats() {
+            const stats = [
+                { id: 'stat1', target: 50, suffix: '+' },
+                { id: 'stat2', target: 10000, suffix: '+' },
+                { id: 'stat3', target: 99, suffix: '%' },
+                { id: 'stat4', target: 100, suffix: '%' }
+            ];
 
-<script>
-// ===== LENIS SMOOTH SCROLL =====
-const lenis = new Lenis({
-  duration: 1.2,
-  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-  smoothWheel: true,
-  wheelMultiplier: 0.9,
-});
-function raf(time) {
-  lenis.raf(time);
-  requestAnimationFrame(raf);
-}
-requestAnimationFrame(raf);
-lenis.on('scroll', ScrollTrigger.update);
-gsap.ticker.add((time) => { lenis.raf(time * 1000); });
-gsap.ticker.lagSmoothing(0);
+            stats.forEach(stat => {
+                const element = document.getElementById(stat.id);
+                let current = 0;
+                const increment = stat.target / 100;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= stat.target) {
+                        current = stat.target;
+                        clearInterval(timer);
+                    }
+                    element.textContent = Math.floor(current) + stat.suffix;
+                }, 20);
+            });
+        }
 
-// ===== LOADER =====
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    document.getElementById('loader').classList.add('hidden');
-  }, 2500);
-});
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateStats();
+                    observer.disconnect();
+                }
+            });
+        });
 
-// ===== NAVBAR =====
-const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 50) navbar.classList.add('scrolled');
-  else navbar.classList.remove('scrolled');
-}, { passive: true });
+        observer.observe(document.querySelector('.hero-stats'));
 
-// ===== MOBILE MENU =====
-const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-const mobileMenu = document.getElementById('mobileMenu');
-const mobileOverlay = document.getElementById('mobileOverlay');
-const mobileMenuClose = document.getElementById('mobileMenuClose');
-function openMobileMenu() { mobileMenu.classList.add('active'); mobileOverlay.classList.add('active'); lenis.stop(); }
-function closeMobileMenu() { mobileMenu.classList.remove('active'); mobileOverlay.classList.remove('active'); lenis.start(); }
-mobileMenuBtn.addEventListener('click', openMobileMenu);
-mobileMenuClose.addEventListener('click', closeMobileMenu);
-mobileOverlay.addEventListener('click', closeMobileMenu);
-document.querySelectorAll('.mobile-menu a').forEach(link => { link.addEventListener('click', closeMobileMenu); });
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
 
-// ===== GSAP SCROLL REVEALS =====
-gsap.registerPlugin(ScrollTrigger);
+        document.getElementById('loginModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) {
+                closeLoginModal();
+            }
+        });
 
-gsap.utils.toArray('.section-header.reveal').forEach((elem) => {
-  gsap.fromTo(elem, { opacity: 0, y: 50 }, {
-    opacity: 1, y: 0, duration: 1, ease: 'power3.out',
-    scrollTrigger: { trigger: elem, start: 'top 88%', toggleActions: 'play none none none' }
-  });
-});
-
-gsap.utils.toArray('.project-card.reveal').forEach((elem, i) => {
-  gsap.fromTo(elem, { opacity: 0, y: 60 }, {
-    opacity: 1, y: 0, duration: 0.9, delay: i * 0.08,
-    ease: 'power3.out',
-    scrollTrigger: { trigger: elem, start: 'top 90%', toggleActions: 'play none none none' }
-  });
-});
-
-gsap.utils.toArray('.feature-card.reveal').forEach((elem, i) => {
-  gsap.fromTo(elem, { opacity: 0, y: 50, scale: 0.95 }, {
-    opacity: 1, y: 0, scale: 1, duration: 0.8, delay: i * 0.08,
-    ease: 'power3.out',
-    scrollTrigger: { trigger: elem, start: 'top 90%', toggleActions: 'play none none none' }
-  });
-});
-
-gsap.utils.toArray('.contact-card.reveal').forEach((elem, i) => {
-  gsap.fromTo(elem, { opacity: 0, y: 50 }, {
-    opacity: 1, y: 0, duration: 0.9, delay: i * 0.15,
-    ease: 'power3.out',
-    scrollTrigger: { trigger: elem, start: 'top 90%', toggleActions: 'play none none none' }
-  });
-});
-
-// ===== COUNTER =====
-const counters = document.querySelectorAll('.stat-number');
-counters.forEach(counter => {
-  const target = parseInt(counter.getAttribute('data-count'));
-  gsap.to(counter, {
-    innerHTML: target,
-    duration: 2.5,
-    snap: { innerHTML: 1 },
-    ease: 'power2.out',
-    scrollTrigger: { trigger: counter, start: 'top 85%' }
-  });
-});
-
-// ===== PARTICLES =====
-const canvas = document.getElementById('particles-canvas');
-const ctx = canvas.getContext('2d');
-let particles = [];
-let mouse = { x: null, y: null };
-function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-class Particle {
-  constructor() {
-    this.x = Math.random() * canvas.width;
-    this.y = Math.random() * canvas.height;
-    this.size = Math.random() * 2 + 0.5;
-    this.speedX = (Math.random() - 0.5) * 0.3;
-    this.speedY = (Math.random() - 0.5) * 0.3;
-    this.opacity = Math.random() * 0.4 + 0.1;
-  }
-  update() {
-    this.x += this.speedX;
-    this.y += this.speedY;
-    if (this.x > canvas.width) this.x = 0;
-    if (this.x < 0) this.x = canvas.width;
-    if (this.y > canvas.height) this.y = 0;
-    if (this.y < 0) this.y = canvas.height;
-    if (mouse.x != null) {
-      const dx = mouse.x - this.x;
-      const dy = mouse.y - this.y;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      if (distance < 120) {
-        const forceDirectionX = dx / distance;
-        const forceDirectionY = dy / distance;
-        const force = (120 - distance) / 120;
-        this.speedX += forceDirectionX * force * 0.015;
-        this.speedY += forceDirectionY * force * 0.015;
-      }
-    }
-    this.speedX *= 0.99;
-    this.speedY *= 0.99;
-  }
-  draw() {
-    ctx.fillStyle = `rgba(212, 175, 55, ${this.opacity})`;
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.fill();
-  }
-}
-
-function initParticles() {
-  particles = [];
-  const particleCount = window.innerWidth < 768 ? 30 : 60;
-  for (let i = 0; i < particleCount; i++) particles.push(new Particle());
-}
-initParticles();
-
-function animateParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  for (let i = 0; i < particles.length; i++) {
-    particles[i].update();
-    particles[i].draw();
-    for (let j = i + 1; j < particles.length; j++) {
-      const dx = particles[i].x - particles[j].x;
-      const dy = particles[i].y - particles[j].y;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      if (distance < 180) {
-        ctx.beginPath();
-        ctx.strokeStyle = `rgba(212, 175, 55, ${0.05 * (1 - distance / 180)})`;
-        ctx.lineWidth = 0.5;
-        ctx.moveTo(particles[i].x, particles[i].y);
-        ctx.lineTo(particles[j].x, particles[j].y);
-        ctx.stroke();
-      }
-    }
-  }
-  requestAnimationFrame(animateParticles);
-}
-animateParticles();
-
-window.addEventListener('mousemove', (e) => {
-  mouse.x = e.clientX;
-  mouse.y = e.clientY;
-});
-window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
-
-// ===== SMOOTH ANCHORS =====
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function(e) {
-    e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target) lenis.scrollTo(target, { offset: -80 });
-  });
-});
-
-// ===== PROJECT CARD HOVER =====
-document.querySelectorAll('.project-card').forEach(card => {
-  card.addEventListener('mouseenter', () => {
-    gsap.to(card, { y: -10, duration: 0.5, ease: 'power2.out' });
-  });
-  card.addEventListener('mouseleave', () => {
-    gsap.to(card, { y: 0, duration: 0.5, ease: 'power2.out' });
-  });
-});
-
-// ===== FEATURE CARD HOVER =====
-document.querySelectorAll('.feature-card').forEach(card => {
-  card.addEventListener('mouseenter', () => {
-    gsap.to(card.querySelector('.feature-icon'), { scale: 1.1, rotation: 5, duration: 0.4, ease: 'power2.out' });
-  });
-  card.addEventListener('mouseleave', () => {
-    gsap.to(card.querySelector('.feature-icon'), { scale: 1, rotation: 0, duration: 0.4, ease: 'power2.out' });
-  });
-});
-
-// ===== CONTACT CARD HOVER =====
-document.querySelectorAll('.contact-card').forEach(card => {
-  card.addEventListener('mouseenter', () => {
-    gsap.to(card.querySelector('.contact-icon'), { scale: 1.1, rotation: -5, duration: 0.4, ease: 'power2.out' });
-  });
-  card.addEventListener('mouseleave', () => {
-    gsap.to(card.querySelector('.contact-icon'), { scale: 1, rotation: 0, duration: 0.4, ease: 'power2.out' });
-  });
-});
-
-// ===== FOOTER SOCIAL =====
-document.querySelectorAll('.footer-social a').forEach(link => {
-  link.addEventListener('mouseenter', () => {
-    gsap.to(link, { y: -5, duration: 0.3, ease: 'power2.out' });
-  });
-  link.addEventListener('mouseleave', () => {
-    gsap.to(link, { y: 0, duration: 0.3, ease: 'power2.out' });
-  });
-});
-
-// ===== REDUCED MOTION =====
-if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  lenis.destroy();
-}
-</script>
+        document.querySelectorAll('.game-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
 </body>
 </html>
