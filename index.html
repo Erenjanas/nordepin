@@ -1,7 +1,906 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NORDepin - Premium Oyun Satış Platformu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00d4ff;
+            --secondary: #7b2ff7;
+            --accent: #ff006e;
+            --gold: #ffd700;
+            --dark: #0a0a0f;
+            --darker: #050508;
+            --card: #12121a;
+            --card-hover: #1a1a25;
+            --text: #e0e0e0;
+            --text-muted: #888;
+            --success: #00ff88;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--darker);
+            color: var(--text);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .bg-animation {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(123, 47, 247, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
+        }
+
+        .particles {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px; height: 2px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: float 15s infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--dark); }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(var(--primary), var(--secondary)); border-radius: 4px; }
+
+        .navbar {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 1rem 5%;
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            padding: 0.8rem 5%;
+            background: rgba(10, 10, 15, 0.98);
+            box-shadow: 0 5px 30px rgba(0, 212, 255, 0.1);
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            font-size: 1.5rem;
+            color: var(--primary);
+            -webkit-text-fill-color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            position: relative;
+            transition: color 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: -5px; left: 0;
+            width: 0; height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        .nav-links a:hover { color: var(--primary); }
+        .nav-links a:hover::before { width: 100%; }
+
+        .user-section { display: flex; align-items: center; gap: 1rem; }
+
+        .user-display {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 50px;
+            color: var(--primary);
+            font-weight: 600;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 5px rgba(0, 212, 255, 0.2); }
+            to { box-shadow: 0 0 20px rgba(0, 212, 255, 0.4); }
+        }
+
+        .btn {
+            padding: 0.7rem 1.8rem;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0, 212, 255, 0.5);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: var(--dark);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 5% 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+            z-index: 2;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid var(--gold);
+            border-radius: 50px;
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .stat { text-align: center; }
+
+        .stat-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--primary);
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .floating-icon {
+            position: absolute;
+            font-size: 3rem;
+            color: rgba(0, 212, 255, 0.1);
+            animation: float-icon 6s ease-in-out infinite;
+        }
+
+        @keyframes float-icon {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        .games-section { padding: 6rem 5%; position: relative; }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .game-card {
+            background: var(--card);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(123, 47, 247, 0.1));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 212, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.1);
+        }
+
+        .game-card:hover::before { opacity: 1; }
+
+        .game-icon-wrapper {
+            width: 100%;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-icon {
+            font-size: 6rem;
+            transition: all 0.4s ease;
+            filter: drop-shadow(0 0 20px currentColor);
+        }
+
+        .game-card:hover .game-icon {
+            transform: scale(1.15) rotate(5deg);
+        }
+
+        .game-info {
+            padding: 1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .game-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .game-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .game-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--success);
+        }
+
+        .price-old {
+            text-decoration: line-through;
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-right: 0.5rem;
+        }
+
+        .discount {
+            background: var(--accent);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .game-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 0.3rem 0.8rem;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--primary);
+        }
+
+        .trust-section {
+            padding: 6rem 5%;
+            background: linear-gradient(180deg, transparent, rgba(0, 212, 255, 0.02), transparent);
+        }
+
+        .trust-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .trust-card {
+            background: var(--card);
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .trust-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 212, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.1);
+        }
+
+        .trust-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .trust-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .trust-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .cta-section {
+            padding: 6rem 5%;
+            text-align: center;
+            position: relative;
+        }
+
+        .cta-box {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 4rem;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(123, 47, 247, 0.1));
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-box::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .cta-content { position: relative; z-index: 2; }
+
+        .cta-box h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .cta-box p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .footer {
+            padding: 4rem 5% 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background: var(--dark);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-brand .logo {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .footer-brand p {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .footer-links h4 {
+            font-family: 'Orbitron', sans-serif;
+            color: #fff;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-links ul { list-style: none; }
+
+        .footer-links li { margin-bottom: 0.8rem; }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a:hover { color: var(--primary); }
+
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: #25d366;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .whatsapp-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(37, 211, 102, 0.5);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 450px;
+            width: 100%;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            position: relative;
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal h2 {
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #fff;
+        }
+
+        .form-group { margin-bottom: 1.5rem; }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            background: var(--darker);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem; right: 1rem;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover { color: var(--accent); }
+
+        .modal-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--text-muted);
+        }
+
+        .modal-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem; right: 2rem;
+            padding: 1rem 2rem;
+            background: var(--card);
+            border: 1px solid var(--success);
+            border-radius: 10px;
+            color: var(--success);
+            font-weight: 700;
+            z-index: 3000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .toast.show { transform: translateX(0); }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%; left: 0;
+                width: 100%;
+                background: var(--dark);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+            }
+
+            .nav-links.active { display: flex; }
+
+            .mobile-menu-btn { display: block; }
+
+            .hero { padding: 7rem 5% 3rem; }
+
+            .hero-stats { gap: 1.5rem; }
+
+            .games-grid { grid-template-columns: 1fr; }
+
+            .game-icon-wrapper { height: 160px; }
+
+            .game-icon { font-size: 4.5rem; }
+
+            .cta-box { padding: 2rem; }
+
+            .footer-content { grid-template-columns: 1fr; text-align: center; }
+        }
+
+        .game-card.vip::after {
+            content: 'VIP';
+            position: absolute;
+            top: 1rem; right: 1rem;
+            padding: 0.3rem 0.8rem;
+            background: linear-gradient(135deg, var(--gold), #ffaa00);
+            color: var(--dark);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 900;
+            z-index: 3;
+            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .game-card.vip { border: 1px solid rgba(255, 215, 0, 0.2); }
+
+        .steam-card { border: 1px solid rgba(0, 212, 255, 0.3); }
+
+        .cs2-bg { background: linear-gradient(135deg, rgba(255, 140, 0, 0.15), rgba(255, 140, 0, 0.05)); }
+        .cs2-color { color: #ff8c00; }
+
+        .valo-bg { background: linear-gradient(135deg, rgba(255, 0, 110, 0.15), rgba(255, 0, 110, 0.05)); }
+        .valo-color { color: #ff006e; }
+
+        .lol-bg { background: linear-gradient(135deg, rgba(200, 170, 110, 0.15), rgba(200, 170, 110, 0.05)); }
+        .lol-color { color: #c8aa6e; }
+
+        .fort-bg { background: linear-gradient(135deg, rgba(255, 165, 0, 0.15), rgba(255, 165, 0, 0.05)); }
+        .fort-color { color: #ffa500; }
+
+        .cod-bg { background: linear-gradient(135deg, rgba(150, 150, 150, 0.15), rgba(150, 150, 150, 0.05)); }
+        .cod-color { color: #969696; }
+
+        .pubg-bg { background: linear-gradient(135deg, rgba(255, 140, 0, 0.15), rgba(255, 140, 0, 0.05)); }
+        .pubg-color { color: #ff8c00; }
+
+        .steam-bg { background: linear-gradient(135deg, rgba(0, 173, 239, 0.15), rgba(0, 173, 239, 0.05)); }
+        .steam-color { color: #00adef; }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <div class="bg-animation"></div>
+    <div class="particles" id="particles"></div>
+
+    <nav class="navbar" id="navbar">
+        <a href="#" class="logo">
+            <i class="fas fa-gamepad"></i>
+            NORD<span style="color: var(--primary); -webkit-text-fill-color: var(--primary);">epin</span>
+        </a>
+        
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#games">Oyunlar</a></li>
+            <li><a href="#trust">Güvenlik</a></li>
+            <li><a href="#contact">İletişim</a></li>
+            <li><a href="#" onclick="showLoginModal()">Giriş Yap</a></li>
+        </ul>
+
+        <div class="user-section">
+            <div class="user-display" id="userDisplay">
+                <i class="fas fa-user-circle"></i>
+                <span id="userName">Kullanıcı</span>
+            </div>
+            <button class="btn btn-primary" id="loginBtn" onclick="showLoginModal()">Giriş Yap</button>
+            <button class="mobile-menu-btn" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="floating-icon" style="top: 20%; left: 10%;"><i class="fas fa-crosshairs"></i></div>
+        <div class="floating-icon" style="top: 60%; right: 15%; animation-delay: 2s;"><i class="fas fa-shield-alt"></i></div>
+        <div class="floating-icon" style="bottom: 20%; left: 20%; animation-delay: 4s;"><i class="fas fa-trophy"></i></div>
+        
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-crown"></i> Premium Oyun Satış Platformu
+            </div>
+            <h1>Oyun Dünyasının<br>Yeni Adresi</h1>
+            <p>Güvenilir, hızlı ve VIP kalitede oyun hesabı ve e-pin satış platformu. Binlerce gamer'in güvendiği tek adres.</p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="#games" class="btn btn-primary" style="text-decoration: none;">
+                    <i class="fas fa-rocket"></i> Oyunları Keşfet
+                </a>
+                <a href="https://wa.me/16395697826" target="_blank" class="btn btn-outline" style="text-decoration: none;">
+                    <i class="fab fa-whatsapp"></i> WhatsApp Destek
+                </a>
+            </div>
+            
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-number" id="stat1">0</div>
+                    <div class="stat-label">Aktif Oyun</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" id="stat2">0</div>
+                    <div class="stat-label">Mutlu Gamer</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" id="stat3">0</div>
+                    <div class="stat-label">Anlık Teslimat</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" id="stat4">0</div>
+                    <div class="stat-label">Güven Oranı</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="games-section" id="games">
+        <div class="section-header">
+            <h2>Popüler Oyunlar</h2>
+            <p>En çok tercih edilen oyunların premium hesap ve e-pinleri</p>
+        </div>
+        
         <div class="games-grid">
+            <!-- Steam Cüzdan -->
+            <div class="game-card steam-card vip" onclick="showGameDetails('Steam Cüzdan')">
+                <div class="game-icon-wrapper steam-bg">
+                    <i class="fab fa-steam game-icon steam-color"></i>
+                </div>
+                <div class="game-info">
+                    <h3 class="game-title"><i class="fab fa-steam"></i> Steam Cüzdan</h3>
+                    <p class="game-desc">Steam Wallet Gift Card - $5, $10, $20, $50, $100 seçenekleri</p>
+                    <div class="game-price">
+                        <div>
+                            <span class="price-old">₺599</span>
+                            <span class="price">₺299</span>
+                        </div>
+                        <span class="discount">-50%</span>
+                    </div>
+                    <div class="game-tags">
+                        <span class="tag"><i class="fas fa-bolt"></i> Anında Teslimat</span>
+                        <span class="tag"><i class="fas fa-globe"></i> Global</span>
+                    </div>
+                </div>
+            </div>
+
             <!-- CS2 -->
             <div class="game-card vip" onclick="showGameDetails('CS2')">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Counter-Strike_2_Logo.svg/1200px-Counter-Strike_2_Logo.svg.png" alt="Counter-Strike 2" class="game-image">
+                <div class="game-icon-wrapper cs2-bg">
+                    <i class="fas fa-crosshairs game-icon cs2-color"></i>
+                </div>
                 <div class="game-info">
                     <h3 class="game-title">Counter-Strike 2</h3>
                     <p class="game-desc">Prime hesaplar, skinli hesaplar ve rank boost hizmetleri</p>
@@ -21,7 +920,9 @@
 
             <!-- Valorant -->
             <div class="game-card vip" onclick="showGameDetails('Valorant')">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Valorant_logo_-_pink.svg/1280px-Valorant_logo_-_pink.svg.png" alt="Valorant" class="game-image">
+                <div class="game-icon-wrapper valo-bg">
+                    <i class="fas fa-v game-icon valo-color"></i>
+                </div>
                 <div class="game-info">
                     <h3 class="game-title">Valorant</h3>
                     <p class="game-desc">VP pinleri, skinli hesaplar ve rank boost</p>
@@ -41,7 +942,9 @@
 
             <!-- League of Legends -->
             <div class="game-card" onclick="showGameDetails('LoL')">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/LoL_icon.svg/1200px-LoL_icon.svg.png" alt="League of Legends" class="game-image">
+                <div class="game-icon-wrapper lol-bg">
+                    <i class="fas fa-chess-knight game-icon lol-color"></i>
+                </div>
                 <div class="game-info">
                     <h3 class="game-title">League of Legends</h3>
                     <p class="game-desc">RP pinleri, skinli hesaplar ve boost hizmetleri</p>
@@ -61,7 +964,9 @@
 
             <!-- Fortnite -->
             <div class="game-card" onclick="showGameDetails('Fortnite')">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/FortniteLogo.svg/1280px-FortniteLogo.svg.png" alt="Fortnite" class="game-image">
+                <div class="game-icon-wrapper fort-bg">
+                    <i class="fas fa-fort-awesome game-icon fort-color"></i>
+                </div>
                 <div class="game-info">
                     <h3 class="game-title">Fortnite</h3>
                     <p class="game-desc">V-Buck pinleri, skinli hesaplar ve battle pass</p>
@@ -81,7 +986,9 @@
 
             <!-- Call of Duty -->
             <div class="game-card" onclick="showGameDetails('CoD')">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Call_of_Duty_logo_2023.svg/1280px-Call_of_Duty_logo_2023.svg.png" alt="Call of Duty" class="game-image">
+                <div class="game-icon-wrapper cod-bg">
+                    <i class="fas fa-fighter-jet game-icon cod-color"></i>
+                </div>
                 <div class="game-info">
                     <h3 class="game-title">Call of Duty</h3>
                     <p class="game-desc">CP pinleri, operatör skinleri ve boost</p>
@@ -101,9 +1008,11 @@
 
             <!-- PUBG -->
             <div class="game-card" onclick="showGameDetails('PUBG')">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/PUBG_logo.svg/1280px-PUBG_logo.svg.png" alt="PUBG" class="game-image">
+                <div class="game-icon-wrapper pubg-bg">
+                    <i class="fas fa-parachute-box game-icon pubg-color"></i>
+                </div>
                 <div class="game-info">
-                    <h3 class="game-title">PUBG</h3>
+                    <h3 class="game-title">PUBG Mobile</h3>
                     <p class="game-desc">UC pinleri, skinli hesaplar ve royal pass</p>
                     <div class="game-price">
                         <div>
@@ -119,3 +1028,271 @@
                 </div>
             </div>
         </div>
+    </section>
+
+    <section class="trust-section" id="trust">
+        <div class="section-header">
+            <h2>Neden Bizi Tercih Etmelisiniz?</h2>
+            <p>Gamer'ların güvendiği premium platform</p>
+        </div>
+        
+        <div class="trust-grid">
+            <div class="trust-card">
+                <div class="trust-icon"><i class="fas fa-shield-alt"></i></div>
+                <h3>%100 Güvenli</h3>
+                <p>SSL şifreleme ve güvenli ödeme altyapısı ile verileriniz her zaman korunur.</p>
+            </div>
+            <div class="trust-card">
+                <div class="trust-icon"><i class="fas fa-bolt"></i></div>
+                <h3>Anında Teslimat</h3>
+                <p>Satın aldığınız ürünler otomatik sistem ile saniyeler içinde teslim edilir.</p>
+            </div>
+            <div class="trust-card">
+                <div class="trust-icon"><i class="fas fa-headset"></i></div>
+                <h3>7/24 Destek</h3>
+                <p>Uzman destek ekibimiz WhatsApp üzerinden anında yanınızda.</p>
+            </div>
+            <div class="trust-card">
+                <div class="trust-icon"><i class="fas fa-undo"></i></div>
+                <h3>Para İade Garantisi</h3>
+                <p>Memnun kalmazsanız 24 saat içinde koşulsuz iade garantisi.</p>
+            </div>
+            <div class="trust-card">
+                <div class="trust-icon"><i class="fas fa-certificate"></i></div>
+                <h3>Lisanslı Ürünler</h3>
+                <p>Tüm ürünler resmi distribütörlerden temin edilir, korsan yok.</p>
+            </div>
+            <div class="trust-card">
+                <div class="trust-icon"><i class="fas fa-users"></i></div>
+                <h3>Topluluk Gücü</h3>
+                <p>10.000+ aktif kullanıcı ve binlerce olumlu geri bildirim.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section" id="contact">
+        <div class="cta-box">
+            <div class="cta-content">
+                <h2>Hemen Başlayın</h2>
+                <p>VIP üyelik ile özel indirimlerden ve anında teslimat avantajından yararlanın.</p>
+                <a href="https://wa.me/16395697826" target="_blank" class="btn btn-primary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;">
+                    <i class="fab fa-whatsapp"></i> WhatsApp'tan Ulaşın
+                </a>
+                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--primary);">
+                    <i class="fas fa-phone"></i> +1 (639) 569-7826
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <a href="#" class="logo">
+                    <i class="fas fa-gamepad"></i>
+                    NORD<span style="color: var(--primary); -webkit-text-fill-color: var(--primary);">epin</span>
+                </a>
+                <p>Premium oyun satış platformu. Gamer'ların güvendiği tek adres. Kalite, hız ve güvenlik bir arada.</p>
+                <a href="https://wa.me/16395697826" target="_blank" class="whatsapp-btn">
+                    <i class="fab fa-whatsapp"></i> WhatsApp Destek
+                </a>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Hızlı Linkler</h4>
+                <ul>
+                    <li><a href="#games"><i class="fas fa-gamepad"></i> Oyunlar</a></li>
+                    <li><a href="#trust"><i class="fas fa-shield-alt"></i> Güvenlik</a></li>
+                    <li><a href="#" onclick="showLoginModal()"><i class="fas fa-user"></i> Giriş Yap</a></li>
+                    <li><a href="#contact"><i class="fas fa-envelope"></i> İletişim</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Destek</h4>
+                <ul>
+                    <li><a href="#"><i class="fas fa-question-circle"></i> SSS</a></li>
+                    <li><a href="#"><i class="fas fa-file-contract"></i> Kullanım Koşulları</a></li>
+                    <li><a href="#"><i class="fas fa-lock"></i> Gizlilik Politikası</a></li>
+                    <li><a href="#"><i class="fas fa-undo"></i> İade Politikası</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links">
+                <h4>İletişim</h4>
+                <ul>
+                    <li><a href="https://wa.me/16395697826" target="_blank"><i class="fab fa-whatsapp"></i> +1 (639) 569-7826</a></li>
+                    <li><a href="#"><i class="fas fa-envelope"></i> destek@nordepin.com</a></li>
+                    <li><a href="#"><i class="fas fa-clock"></i> 7/24 Aktif</a></li>
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> Global Hizmet</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p> 2026 NORDepin. Tüm hakları saklıdır. | Gamer'ların güvendiği platform</p>
+        </div>
+    </footer>
+
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeLoginModal()"><i class="fas fa-times"></i></button>
+            <h2><i class="fas fa-user-circle"></i> Giriş Yap</h2>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Kullanıcı Adı</label>
+                    <input type="text" id="loginUsername" placeholder="Kullanıcı adınızı girin" required>
+                </div>
+                <div class="form-group">
+                    <label>Şifre</label>
+                    <input type="password" id="loginPassword" placeholder="Şifrenizi girin" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-sign-in-alt"></i> Giriş Yap
+                </button>
+            </form>
+            <div class="modal-footer">
+                Hesabınız yok mu? <a href="#">Kayıt Ol</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i> <span id="toastMessage">İşlem başarılı!</span>
+    </div>
+
+    <script>
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        function showLoginModal() {
+            document.getElementById('loginModal').classList.add('active');
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').classList.remove('active');
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value;
+            localStorage.setItem('nordepin_user', username);
+            updateUserDisplay();
+            closeLoginModal();
+            showToast('Hoş geldiniz, ' + username + '! 🎮');
+        }
+
+        function updateUserDisplay() {
+            const user = localStorage.getItem('nordepin_user');
+            const userDisplay = document.getElementById('userDisplay');
+            const userName = document.getElementById('userName');
+            const loginBtn = document.getElementById('loginBtn');
+            
+            if (user) {
+                userDisplay.style.display = 'flex';
+                userName.textContent = user;
+                loginBtn.style.display = 'none';
+            } else {
+                userDisplay.style.display = 'none';
+                loginBtn.style.display = 'block';
+            }
+        }
+
+        updateUserDisplay();
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        function showGameDetails(game) {
+            showToast(game + ' detayları yakında eklenecek! 🚀');
+        }
+
+        function animateStats() {
+            const stats = [
+                { id: 'stat1', target: 50, suffix: '+' },
+                { id: 'stat2', target: 10000, suffix: '+' },
+                { id: 'stat3', target: 99, suffix: '%' },
+                { id: 'stat4', target: 100, suffix: '%' }
+            ];
+
+            stats.forEach(stat => {
+                const element = document.getElementById(stat.id);
+                let current = 0;
+                const increment = stat.target / 100;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= stat.target) {
+                        current = stat.target;
+                        clearInterval(timer);
+                    }
+                    element.textContent = Math.floor(current) + stat.suffix;
+                }, 20);
+            });
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateStats();
+                    observer.disconnect();
+                }
+            });
+        });
+
+        observer.observe(document.querySelector('.hero-stats'));
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        document.getElementById('loginModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) {
+                closeLoginModal();
+            }
+        });
+
+        document.querySelectorAll('.game-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
+</body>
+</html>
